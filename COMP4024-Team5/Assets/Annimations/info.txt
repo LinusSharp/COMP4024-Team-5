@@ -1,0 +1,1 @@
+Animation clips (.anim), animator controllers (.controller), and override controllers.
