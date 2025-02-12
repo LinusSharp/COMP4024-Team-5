@@ -9,16 +9,18 @@
 
 ### 📊 Developement process and team work : 
 
-* Project planning: 
-    * Use Trello and GitHub to manage tasks.
-    * Define use cases to describe expected player interactions 
+* 🗂️ Project planning: 
+    * 📌 Use Trello and GitHub to manage tasks.
+    * 📌 Define use cases to describe expected player interactions 
 
-* Git workflow: 
-    * Use branches to collaborate
-    * Follow good commit practices 
+* 🛠️ Git workflow: 
+    * 📌 Use branches to collaborate
+    * 📌 Follow good commit practices 
 
-* Testing : 
-    * Implement unit tests. 
+* 🧪 Testing standards: 
+    * 📌  Use the Unity Testing Framework
+    * 📌 If tests involve MonoBehaviour, they should be written in PlayMode Tests
+    * 📌  Naming Convention for Tests: Something_DoesSomething_ThisHappens
 
 
 ### 📅 Milestones: 
@@ -26,7 +28,7 @@
 * Create a basic 2D game with the essential features
 * Stretch goal : add levels of difficulty to the game and more features. 
 
-## Branching convention: 
+## 🌱 Branching convention: 
 * Try not to add more than one feature before comitting.
 * Try not to fix more than one issue before comitting.
 * Commit OFTEN to your local branch, but not to main.
