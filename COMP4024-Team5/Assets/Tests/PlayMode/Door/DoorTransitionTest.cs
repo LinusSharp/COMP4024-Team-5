@@ -42,6 +42,7 @@ public class DoorTransitionTest
     {
         Object.Destroy(_player);
         Object.Destroy(_door);
+        
     }
 
     [UnityTest]

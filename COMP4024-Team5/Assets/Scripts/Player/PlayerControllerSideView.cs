@@ -6,7 +6,7 @@ public class PlayerControllerSideView : MonoBehaviour
     public float jumpForce = 5f;
     
     private Rigidbody2D rb;
-    private bool isGrounded = false;
+    public bool isGrounded = false;
 
     private void Awake()
     {
