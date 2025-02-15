@@ -17,7 +17,7 @@ public class PlayerControllerSideView : MonoBehaviour
     {
         // only move left or right
         float moveX = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);  // apparently linearVelocity does not exist in Rigidbody2D class??
 
         // this is jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
