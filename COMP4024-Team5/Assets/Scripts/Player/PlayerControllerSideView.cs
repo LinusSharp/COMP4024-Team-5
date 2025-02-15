@@ -6,7 +6,8 @@ public class PlayerControllerSideView : MonoBehaviour
     public float jumpForce = 5f;
     
     private Rigidbody2D rb;
-    private bool isGrounded = false;
+    [SerializeField] private bool isGrounded;
+
 
     private void Awake()
     {
@@ -24,19 +25,33 @@ public class PlayerControllerSideView : MonoBehaviour
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
+  
     }
 
     // Checks if the player is on the ground or not
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > 0.5f)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ground") || 
+            collision.gameObject.layer == LayerMask.NameToLayer("obstacle"))
         {
-            isGrounded = true;
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)  //  trigger if landing on top
+                {
+                    isGrounded = true;
+                
+                }
+            }
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        isGrounded = false;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ground") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("obstacle"))
+        {
+            isGrounded = false;
+        }
     }
 
     // this is so that there is gravity or not
