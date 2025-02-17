@@ -11,12 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private string[] followScenes = { "Tutorial", "Level" };
     private bool isFollowing = false;
 
-    // these are the smoothing vairiables
-    public float smoothTime = 0.3f;
-    private float xVelocity = 0f;
-
-    // this is the deadzone buffer - cam will only move when player goes out of this
-    public float buffer = 0.5f;
+    // these are the smoothing vairiable
 
     void Start() 
     {
@@ -47,15 +42,8 @@ public class CameraController : MonoBehaviour
     {
         if (isFollowing && player != null)
         {
-            // calculates the target x position
             float targetX = player.position.x + followOffset.x;
-            
-            // is the player out of the buffer
-            if (Mathf.Abs(transform.position.x - targetX) > buffer)
-            {
-                float newX = Mathf.SmoothDamp(transform.position.x, targetX, ref xVelocity, smoothTime);
-                transform.position = new Vector3(newX, transform.position.y, followOffset.z);
-            }
+            transform.position = new Vector3(targetX, transform.position.y, followOffset.z);
         }
     }
 }
