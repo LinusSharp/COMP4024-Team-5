@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 181624890}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 1.3, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -229,8 +229,8 @@ MonoBehaviour:
   followScenes:
   - Tutorial
   - Level
-  smoothTime: 0.3
-  buffer: 0.5
+  minX: 1
+  maxX: 13
 --- !u!114 &181624895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,8 +345,12 @@ PrefabInstance:
       value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 5874730683895985607, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 35.022305
+      objectReference: {fileID: 0}
+    - target: {fileID: 5874730683895985607, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.37662935
+      value: 7.0256
       objectReference: {fileID: 0}
     - target: {fileID: 5874730683895985607, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -403,7 +407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7005896075643363502, guid: b93dee3649b4140b0b6dfc12e9e1144c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.9
+      value: 22.5
       objectReference: {fileID: 0}
     - target: {fileID: 7005896075643363502, guid: b93dee3649b4140b0b6dfc12e9e1144c, type: 3}
       propertyPath: m_LocalPosition.y

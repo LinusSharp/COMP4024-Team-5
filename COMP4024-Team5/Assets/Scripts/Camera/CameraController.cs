@@ -11,7 +11,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] private string[] followScenes = { "Tutorial", "Level" };
     private bool isFollowing = false;
 
-    // these are the smoothing vairiable
+    // these are the variables to stop the cam going off teh edge of the screen
+    public float minX = -10f;
+    public float maxX = 10f;
 
     void Start() 
     {
@@ -43,6 +45,7 @@ public class CameraController : MonoBehaviour
         if (isFollowing && player != null)
         {
             float targetX = player.position.x + followOffset.x;
+            targetX = Mathf.Clamp(targetX, minX, maxX);
             transform.position = new Vector3(targetX, transform.position.y, followOffset.z);
         }
     }
