@@ -4,6 +4,9 @@ public class ItemController : MonoBehaviour
 {
     [SerializeField] private string nextScene = "Lobby";
     [SerializeField] private GameObject itemCollectedUI;
+    
+    [SerializeField] private string itemKey; 
+    
     private bool itemCollected = false; // boolean variable to avoid mutliple triggers. 
    
     private void Start() // debugging 
@@ -27,18 +30,19 @@ public class ItemController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !itemCollected)
-        { 
+        {
             itemCollected = true;
             Debug.Log("Collected Item");
 
             gameObject.SetActive(false); // avoiding multiple triggers
-          
-        }
-        
-        
-        if (itemCollectedUI != null)
-        {
-            itemCollectedUI.SetActive(true);
+
+
+
+
+            if (itemCollectedUI != null)
+            {
+                itemCollectedUI.SetActive(true);
+            }
         }
     }
     public void BackToLobby()
