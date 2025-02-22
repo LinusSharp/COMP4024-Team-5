@@ -18,4 +18,9 @@ public class PlayerController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
+    
+    private void OnEnable()
+    {
+        transform.position = Vector3.zero; // Reset position when loading a new scene
+    }
 }

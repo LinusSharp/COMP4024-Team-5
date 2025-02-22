@@ -347,6 +347,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8465218507587515686, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2518790603767627720, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
     m_RemovedGameObjects: []
