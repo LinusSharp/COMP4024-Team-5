@@ -32,11 +32,14 @@ public class ItemController : MonoBehaviour
         if (other.CompareTag("Player") && !itemCollected)
         {
             itemCollected = true;
-            Debug.Log("Collected Item");
+            Debug.Log("Collected Item" + itemKey); // debugging 
 
-            gameObject.SetActive(false); // avoiding multiple triggers
+            gameObject.SetActive(false); // avoiding multiple triggers and hiding the item after collection 
 
-
+            
+            // saving the item keys using PlayerPerfs
+            PlayerPrefs.SetInt(itemKey, 1);
+            PlayerPrefs.Save();
 
 
             if (itemCollectedUI != null)
