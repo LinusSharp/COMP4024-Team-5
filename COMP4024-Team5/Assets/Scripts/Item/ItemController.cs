@@ -3,12 +3,19 @@ using UnityEngine.SceneManagement;
 public class ItemController : MonoBehaviour
 {
     [SerializeField] private string nextScene = "Lobby";
+    [SerializeField] private GameObject itemCollectedUI;
     private bool itemCollected = false; // boolean variable to avoid mutliple triggers. 
    
     private void Start() // debugging 
     {
         Debug.Log("CollectableItem Loaded in Scene: " + SceneManager.GetActiveScene().name);
         gameObject.SetActive(true);
+        
+        // hiding the ui before the item collection 
+        if (itemCollectedUI != null)
+        {
+            itemCollectedUI.SetActive(false);
+        }
     }
     
     
@@ -25,9 +32,17 @@ public class ItemController : MonoBehaviour
             Debug.Log("Collected Item");
 
             gameObject.SetActive(false); // avoiding multiple triggers
-            SceneManager.LoadScene(nextScene);
+          
+        }
+        
+        
+        if (itemCollectedUI != null)
+        {
+            itemCollectedUI.SetActive(true);
         }
     }
-
-    
+    public void BackToLobby()
+    {
+        SceneManager.LoadScene(nextScene);
+    }
 }
