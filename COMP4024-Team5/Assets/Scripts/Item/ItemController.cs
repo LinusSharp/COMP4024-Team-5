@@ -11,10 +11,19 @@ public class ItemController : MonoBehaviour
 
     private void Start() 
     {
-        Debug.Log("CollectableItem Loaded in Scene: " + SceneManager.GetActiveScene().name);
+        Debug.Log("Scene : " + SceneManager.GetActiveScene().name);
+
+        // hiding the item if it is already collecting 
+        if (CollectionController.Instance.IsItemCollected(itemKey))
+        {
+            Debug.Log($"Item {itemKey} already collected, hiding it.");
+            gameObject.SetActive(false); 
+            return; 
+        }
+
         gameObject.SetActive(true);
-        
-        // Hiding the UI before the item collection.
+
+        // hiding the UI before we collect the item
         if (itemCollectedUI != null)
         {
             itemCollectedUI.SetActive(false);
