@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerControllerSideView : MonoBehaviour
@@ -10,6 +11,19 @@ public class PlayerControllerSideView : MonoBehaviour
     [SerializeField]
     private Collider2D floorBoxCollider;
     private bool _jumpRequested;
+
+    [SerializeField]
+    private bool _active = true ;
+    private Collider2D deathBoxCollider;
+    private Vector2 _respawnPosition;
+    
+    private void Start()
+    {
+        deathBoxCollider = GetComponent<Collider2D>();
+        _active = true;
+        
+        SetRespawnPoint(transform.position);
+    }
     
     private void Awake()
     {
@@ -19,6 +33,10 @@ public class PlayerControllerSideView : MonoBehaviour
     
     private void Update()
     {
+        if (!_active)
+        {
+            return;
+        }
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && IsGrounded())
         {
             _jumpRequested = true; // Flag for jumping, applied in FixedUpdate
@@ -40,5 +58,32 @@ public class PlayerControllerSideView : MonoBehaviour
     {
         var bounds = floorBoxCollider.bounds;
         return Physics2D.OverlapBox(bounds.center, bounds.size, 0f, LayerMask.GetMask("Ground"));
+    }
+    
+    private void MiniJump()
+    {
+        rb.AddForce(new Vector2(0f, jumpForce / 2), ForceMode2D.Impulse);
+    }
+    
+    public void SetRespawnPoint(Vector2 position)
+    {
+        _respawnPosition = position;
+    }
+
+    public void Die()
+    {
+        _active = false;
+        deathBoxCollider.enabled = false;
+        MiniJump();
+        StartCoroutine(Respawn());
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(3f);
+        transform.position = _respawnPosition;
+        _active = true;
+        deathBoxCollider.enabled = true;
+        MiniJump();
     }
 }
