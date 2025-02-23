@@ -652,6 +652,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.68252796
       objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: levelNumber
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: sceneToLoad
+      value: Level 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6506266856327497931, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: sceneToLoad
       value: Level 2
@@ -856,6 +864,14 @@ PrefabInstance:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.g
       value: 0.39372995
+      objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: levelNumber
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: sceneToLoad
+      value: Level 3
       objectReference: {fileID: 0}
     - target: {fileID: 6506266856327497931, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: sceneToLoad
@@ -1294,6 +1310,14 @@ PrefabInstance:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.r
       value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: levelNumber
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: sceneToLoad
+      value: Level 4
       objectReference: {fileID: 0}
     - target: {fileID: 6506266856327497931, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: sceneToLoad

@@ -453,11 +453,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8421470200361762445, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5682792881986965811}
   m_SourcePrefab: {fileID: 100100000, guid: 066cbea8010f64a7386828646242381a, type: 3}
+--- !u!1 &5682792881986965810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8421470200361762445, guid: 066cbea8010f64a7386828646242381a, type: 3}
+  m_PrefabInstance: {fileID: 5682792881986965809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5682792881986965811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682792881986965810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd56870c7b6bc4f1ca25da80979a351d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToLoad: Lobby
 --- !u!1001 &6895974810504901637
 PrefabInstance:
   m_ObjectHideFlags: 0
