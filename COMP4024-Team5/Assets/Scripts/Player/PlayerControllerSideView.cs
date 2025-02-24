@@ -55,6 +55,7 @@ public class PlayerControllerSideView : MonoBehaviour
         }
     }
     
+    // flips the player
     private void Flip()
     {
         facingRight = !facingRight;
