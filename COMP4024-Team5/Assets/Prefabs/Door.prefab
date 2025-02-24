@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7480669866811249230}
   - component: {fileID: 110252751352797472}
   - component: {fileID: 7870718805065012294}
-  - component: {fileID: 6506266856327497931}
+  - component: {fileID: 344378744010984815}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -135,7 +135,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6506266856327497931
+--- !u!114 &344378744010984815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,7 +144,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8421470200361762445}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd56870c7b6bc4f1ca25da80979a351d, type: 3}
+  m_Script: {fileID: 11500000, guid: b74f580cfa1224949b5c1d0b45e2a0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: Lobby
+  sceneToLoad: Level
+  levelNumber: 1
+  doorSprite: {fileID: 110252751352797472}
+  doorCollider: {fileID: 7870718805065012294}

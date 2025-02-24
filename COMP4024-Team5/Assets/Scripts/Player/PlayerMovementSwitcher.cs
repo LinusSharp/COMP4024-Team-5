@@ -19,7 +19,7 @@ public class PlayerMovementSwitcher : MonoBehaviour
     // Swaps out the player movement and resets physics.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Tutorial" || scene.name == "Level")
+        if (scene.name == "Tutorial" || scene.name == "Level 1" || scene.name == "Level 2"|| scene.name == "Level 3"|| scene.name == "Level 4")
         {
             sideViewController.enabled = true;
             topDownController.enabled = false;
