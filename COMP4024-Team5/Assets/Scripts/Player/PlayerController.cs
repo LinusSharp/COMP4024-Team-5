@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 20f;
     private static PlayerController instance;
-    public int level = 0;
+    public int level = 1;
 
     private void Awake()
     {

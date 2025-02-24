@@ -18,6 +18,8 @@ public class LobbyController : MonoBehaviour
         int level = player.level;
         int index = level - 1;
 
+        Debug.Log(index);
+
         if (index >= 0 && index < levelBackgrounds.Length)
         {
             backgroundImage.sprite = levelBackgrounds[index];
