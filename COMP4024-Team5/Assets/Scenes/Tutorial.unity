@@ -275,6 +275,33 @@ MonoBehaviour:
   - Level
   minX: -6
   maxX: 23
+--- !u!1 &1986313185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8425580780590587214, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+  m_PrefabInstance: {fileID: 4600742368861643081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1986313194
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986313185}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f6a55b51a846a461db01210a88228c14, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4600742368861643081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,16 +311,36 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1664421621540394661, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6367560908665664636, guid: 40de9a8703e2e5a47882b0b86451c741, type: 3}
+    - target: {fileID: 1664421621540394661, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1664421621540394661, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
       propertyPath: m_Color.b
-      value: 0.30113026
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1664421621540394661, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
       propertyPath: m_Color.g
-      value: 0.30113026
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1664421621540394661, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
       propertyPath: m_Color.r
-      value: 0.9528302
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152764271382932881, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1986313194}
+    - target: {fileID: 4228208562264194940, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228208562264194940, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4228208562264194940, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -335,6 +382,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6831448637677766738, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1986313194}
+    - target: {fileID: 6907287448399079478, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907287448399079478, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.32
+      objectReference: {fileID: 0}
     - target: {fileID: 6907287448399079478, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -351,7 +410,10 @@ PrefabInstance:
     - {fileID: 2518790603767627720, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8425580780590587214, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1986313194}
   m_SourcePrefab: {fileID: 100100000, guid: f6ecf53e135ab49b1a84bfcdfb4e6a7a, type: 3}
 --- !u!1001 &5682792881986965809
 PrefabInstance:
