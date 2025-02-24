@@ -47,22 +47,23 @@ public class ItemController : MonoBehaviour
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (player != null) {
                 player.IncreaseLevel();
-//                Destroy(gameObject);
+                Destroy(gameObject);
+                BackToLobby();
             }
 
             //  track collected items
-            CollectionController.Instance.CollectItem(itemKey); 
+            //CollectionController.Instance.CollectItem(itemKey); 
             
             // saving the collected item 
-            PlayerPrefs.SetInt(itemKey, 1);
-            PlayerPrefs.Save();
+            //PlayerPrefs.SetInt(itemKey, 1);
+            //PlayerPrefs.Save();
 			
         
 
-            if (itemCollectedUI != null)
-            {
-                itemCollectedUI.SetActive(true);
-            }
+            //if (itemCollectedUI != null)
+            //{
+               // itemCollectedUI.SetActive(true);
+            //}
         }
     }
     public void BackToLobby()
