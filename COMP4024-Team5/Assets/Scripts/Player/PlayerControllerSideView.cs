@@ -5,25 +5,27 @@ public class PlayerControllerSideView : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     
-    public Animator animator;
+    [SerializeField]
     private Rigidbody2D rb;
-    public bool isGrounded = false;
+    [SerializeField]
+    private Collider2D floorBoxCollider;
+    public Animator animator;
+    
+    private bool _jumpRequested;
     private bool facingRight = true;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 1;
     }
-
+    
     private void Update()
     {
-        // only move left or right
+        // Handle horizontal movement and animations.
         float moveX = Input.GetAxis("Horizontal");
-
         animator.SetFloat("Speed", Mathf.Abs(moveX));
         
-        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
-
         if (moveX > 0 && !facingRight)
         {
             Flip();
@@ -32,41 +34,46 @@ public class PlayerControllerSideView : MonoBehaviour
         {
             Flip();
         }
-
-
-        // this is jump
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        
+        // Check for jump input with multiple keys and only if grounded.
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && IsGrounded())
         {
+            _jumpRequested = true;
             animator.SetBool("IsJumping", true);
-            isGrounded = false;
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
 
+    private void FixedUpdate()
+    {
+        // Apply horizontal movement.
+        rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
+
+        if (_jumpRequested)
+        {
+            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            _jumpRequested = false;
+        }
+    }
+    
     private void Flip()
     {
         facingRight = !facingRight;
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
     }
 
-    // Checks if the player is on the ground or not
+    // Uses the floorBoxCollider to check if the player is on the ground.
+    private bool IsGrounded()
+    {
+        var bounds = floorBoxCollider.bounds;
+        return Physics2D.OverlapBox(bounds.center, bounds.size, 0f, LayerMask.GetMask("Ground"));
+    }
+    
+    // Resets the jump animation when landing.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.contacts[0].normal.y > 0.5f)
         {
             animator.SetBool("IsJumping", false);
-            isGrounded = true;
         }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isGrounded = false;
-    }
-
-    // this is so that there is gravity or not
-    private void OnEnable()
-    {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 1;
     }
 }
