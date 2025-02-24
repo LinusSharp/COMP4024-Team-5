@@ -45,12 +45,15 @@ public class PlayerControllerSideView : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
-
-        if (_jumpRequested)
+        if (_active)
         {
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            _jumpRequested = false;
+            rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
+
+            if (_jumpRequested)
+            {
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                _jumpRequested = false;
+            }
         }
     }
 
@@ -80,7 +83,7 @@ public class PlayerControllerSideView : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         transform.position = _respawnPosition;
         _active = true;
         deathBoxCollider.enabled = true;
