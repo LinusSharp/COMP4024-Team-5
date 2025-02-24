@@ -13,16 +13,15 @@ public class PlayerControllerSideView : MonoBehaviour
     private bool _jumpRequested;
 
     [SerializeField]
-    private bool _active = true ;
-    private Collider2D deathBoxCollider;
+    private bool active = true ;
+    private Collider2D _deathBoxCollider;
     private Vector2 _respawnPosition;
     
     private void Start()
     {
-        deathBoxCollider = GetComponent<Collider2D>();
-        _active = true;
-        
-        SetRespawnPoint(transform.position);
+        _deathBoxCollider = GetComponent<Collider2D>();
+        active = true;
+        SetRespawnPoint();
     }
     
     private void Awake()
@@ -33,25 +32,26 @@ public class PlayerControllerSideView : MonoBehaviour
     
     private void Update()
     {
-        if (!_active)
+        if (!active)
         {
             return;
         }
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && IsGrounded())
         {
-            _jumpRequested = true; // Flag for jumping, applied in FixedUpdate
+            _jumpRequested = true;
         }
     }
 
     private void FixedUpdate()
     {
-        if (_active)
+        if (active)
         {
             rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
 
             if (_jumpRequested)
             {
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                Debug.Log("jump 1 ");
                 _jumpRequested = false;
             }
         }
@@ -68,15 +68,20 @@ public class PlayerControllerSideView : MonoBehaviour
         rb.AddForce(new Vector2(0f, jumpForce / 2), ForceMode2D.Impulse);
     }
     
-    public void SetRespawnPoint(Vector2 position)
+    public void SetRespawnPoint()
     {
-        _respawnPosition = position;
+        _respawnPosition = transform.position;
     }
 
     public void Die()
     {
-        _active = false;
-        deathBoxCollider.enabled = false;
+        active = false;
+        _deathBoxCollider.enabled = false;
+        
+        Vector3 position = transform.position;
+        position.z -= 1;
+        transform.position = position;
+        
         MiniJump();
         StartCoroutine(Respawn());
     }
@@ -85,8 +90,14 @@ public class PlayerControllerSideView : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         transform.position = _respawnPosition;
-        _active = true;
-        deathBoxCollider.enabled = true;
+        active = true;
+        _deathBoxCollider.enabled = true;
         MiniJump();
+    }
+    
+    private void OnEnable()
+    {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 1;
     }
 }
