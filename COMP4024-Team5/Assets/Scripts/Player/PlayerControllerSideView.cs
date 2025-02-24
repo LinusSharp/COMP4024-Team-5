@@ -38,6 +38,7 @@ public class PlayerControllerSideView : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             animator.SetBool("IsJumping", true);
+            isGrounded = false;
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
