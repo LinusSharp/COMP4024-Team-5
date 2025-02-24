@@ -65,8 +65,10 @@ public class PlayerControllerSideView : MonoBehaviour
     private bool IsGrounded()
     {
         var bounds = floorBoxCollider.bounds;
-        return Physics2D.OverlapBox(bounds.center, bounds.size, 0f, LayerMask.GetMask("Ground"));
+        int groundMask = LayerMask.GetMask("Ground");
+        return Physics2D.OverlapBox(bounds.center, bounds.size, 0f, groundMask);
     }
+
     
     // Resets the jump animation when landing.
     private void OnCollisionEnter2D(Collision2D collision)
