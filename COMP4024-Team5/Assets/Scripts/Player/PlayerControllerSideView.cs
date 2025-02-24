@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControllerSideView : MonoBehaviour
 {
@@ -18,6 +19,26 @@ public class PlayerControllerSideView : MonoBehaviour
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 1;
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnDisable()
+    {
+        // Unsubscribe to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    // This method is called every time a new scene is loaded.
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset the player's movement
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0;
     }
     
     private void Update()
@@ -79,4 +100,13 @@ public class PlayerControllerSideView : MonoBehaviour
             animator.SetBool("IsJumping", false);
         }
     }
+
+    public void ResetFacing()
+    {
+        facingRight = true;
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
+    }
+
 }
