@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     public Vector3 followOffset = new Vector3(0f, 0f, -10f);
     
     // these are the scenes where the camera stays still
-    [SerializeField] private string[] followScenes = { "Tutorial", "Level" };
+    [SerializeField] private string[] followScenes = { "Tutorial", "Level 1" , "Level 2", "Level 3", "Level 4"};
     private bool isFollowing = false;
 
     // these are the variables to stop the cam going off teh edge of the screen

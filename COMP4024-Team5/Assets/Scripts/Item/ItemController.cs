@@ -44,6 +44,12 @@ public class ItemController : MonoBehaviour
 
             gameObject.SetActive(false); // avoiding multiple triggers and hiding the item after collection.
 
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            if (player != null) {
+                player.IncreaseLevel();
+//                Destroy(gameObject);
+            }
+
             //  track collected items
             CollectionController.Instance.CollectItem(itemKey); 
             

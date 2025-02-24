@@ -1,34 +1,31 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] components;
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Sprite[] levelBackgrounds;
 
     private void Start()
     {
-        
-        foreach (GameObject component in components)
+        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+        if (player == null)
         {
-            if (component != null)
-            {
-                string componentKey = component.name;
-                bool isCollected = CollectionController.Instance.IsItemCollected(componentKey); //CollectionController
+            Debug.LogError("Player object not found!");
+            return;
+        }
+        
+        int level = player.level;
+        int index = level - 1;
 
-                if (isCollected)
-                {
-                    Debug.Log($" {componentKey} is collected");
-                    component.SetActive(true);
-                }
-                else
-                {
-                    Debug.Log($" {componentKey} is not collected");
-                    component.SetActive(false);
-                }
-            }
-            else
-            {
-                Debug.LogError(" A component is missing in the LobbyController script");
-            }
+        if (index >= 0 && index < levelBackgrounds.Length)
+        {
+            backgroundImage.sprite = levelBackgrounds[index];
+            Debug.Log($"Loaded background for level {level}");
+        }
+        else
+        {
+            Debug.LogWarning($"No background defined for level {level}");
         }
     }
 }
