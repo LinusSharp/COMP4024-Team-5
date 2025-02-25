@@ -107,8 +107,7 @@ public class PlayerControllerSideView : MonoBehaviour
         facingRight = !facingRight;
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
     }
-
-    // Uses the floorBoxCollider to check if the player is on the ground.
+    
     private bool IsGrounded()
     {
         var bounds = floorBoxCollider.bounds;
@@ -147,8 +146,6 @@ public class PlayerControllerSideView : MonoBehaviour
         _deathBoxCollider.enabled = true;
         MiniJump();
     }
-
-
     
     // Resets the jump animation when landing.
     private void OnCollisionEnter2D(Collision2D collision)

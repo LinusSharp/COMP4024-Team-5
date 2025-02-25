@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 7620789502535898030}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 0.99, y: 0.05, z: 1}
+  m_LocalPosition: {x: 0, y: -0.225, z: 0}
+  m_LocalScale: {x: 0.34848002, y: 0.0485, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4228208562264194940}
@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  level: 1
 --- !u!114 &6775312778579403135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,10 +260,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  animator: {fileID: 7134372265723892861}
   jumpForce: 7
   rb: {fileID: 8465218507587515686}
   floorBoxCollider: {fileID: 5136404411413886781}
+  active: 1
+  animator: {fileID: 7134372265723892861}
 --- !u!114 &2152764271382932881
 MonoBehaviour:
   m_ObjectHideFlags: 0
