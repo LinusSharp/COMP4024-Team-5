@@ -167,4 +167,11 @@ public class PlayerControllerSideView : MonoBehaviour
         transform.localScale = scale;
     }
 
+    public void ResetAnimation()
+    {
+        animator.SetBool("IsJumping", false);
+        animator.SetFloat("Speed", 0f);
+    }
+
+
 }

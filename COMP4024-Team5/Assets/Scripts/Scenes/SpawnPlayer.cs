@@ -23,12 +23,19 @@ public class SpawnPlayer : MonoBehaviour
             if (sideView != null)
             {
                 sideView.ResetFacing();
+                sideView.ResetAnimation();
+            }
+
+            PlayerControllerTopDown topView = player.GetComponent<PlayerControllerTopDown>();
+            if (sideView != null)
+            {
+                sideView.ResetAnimation();
             }
         }
         
         Scene scene = gameObject.scene;
         // rename the if to the level names
-        if (scene.name == "Tutorial" || scene.name == "Level")
+        if (scene.name == "Tutorial" || scene.name == "Level 1" || scene.name == "Level 2" || scene.name == "Level 3" || scene.name == "Level 4")
         {
             var playerController = player.GetComponent<PlayerControllerSideView>();
             if (playerController != null)

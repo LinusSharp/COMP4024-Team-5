@@ -47,4 +47,10 @@ public class PlayerControllerTopDown : MonoBehaviour
         facingRight = !facingRight;
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
     }
+
+    public void ResetAnimation()
+    {
+        animator.SetBool("IsJumping", false);
+        animator.SetFloat("Speed", 0f);
+    }
 }
