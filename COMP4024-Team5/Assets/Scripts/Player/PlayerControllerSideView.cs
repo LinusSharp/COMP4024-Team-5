@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,10 +11,23 @@ public class PlayerControllerSideView : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField]
     private Collider2D floorBoxCollider;
+    private bool _jumpRequested;
+
+    [SerializeField]
+    private bool active = true ;
+    private Collider2D _deathBoxCollider;
+    private Vector2 _respawnPosition;
+
     public Animator animator;
     
-    private bool _jumpRequested;
     private bool facingRight = true;
+
+    private void Start()
+    {
+        _deathBoxCollider = GetComponent<Collider2D>();
+        active = true;
+        SetRespawnPoint();
+    }
 
     private void Awake()
     {
@@ -23,8 +37,10 @@ public class PlayerControllerSideView : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to the sceneLoaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 1;
     }
     
     private void OnDisable()
@@ -43,6 +59,12 @@ public class PlayerControllerSideView : MonoBehaviour
     
     private void Update()
     {
+
+        if (!active)
+        {
+            return;
+        }
+
         // Handle horizontal movement and animations.
         float moveX = Input.GetAxis("Horizontal");
         animator.SetFloat("Speed", Mathf.Abs(moveX));
@@ -66,13 +88,16 @@ public class PlayerControllerSideView : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Apply horizontal movement.
-        rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
-
-        if (_jumpRequested)
+        if (active)
         {
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            _jumpRequested = false;
+            rb.linearVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, rb.linearVelocity.y);
+
+            if (_jumpRequested)
+            {
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                Debug.Log("jump 1 ");
+                _jumpRequested = false;
+            }
         }
     }
     
@@ -90,6 +115,39 @@ public class PlayerControllerSideView : MonoBehaviour
         int groundMask = LayerMask.GetMask("Ground");
         return Physics2D.OverlapBox(bounds.center, bounds.size, 0f, groundMask);
     }
+    
+    private void MiniJump()
+    {
+        rb.AddForce(new Vector2(0f, jumpForce / 2), ForceMode2D.Impulse);
+    }
+    
+    public void SetRespawnPoint()
+    {
+        _respawnPosition = transform.position;
+    }
+
+    public void Die()
+    {
+        active = false;
+        _deathBoxCollider.enabled = false;
+        
+        Vector3 position = transform.position;
+        position.z -= 1;
+        transform.position = position;
+        
+        MiniJump();
+        StartCoroutine(Respawn());
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(2f);
+        transform.position = _respawnPosition;
+        active = true;
+        _deathBoxCollider.enabled = true;
+        MiniJump();
+    }
+
 
     
     // Resets the jump animation when landing.
