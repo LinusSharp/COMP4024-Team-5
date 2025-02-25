@@ -37,8 +37,10 @@ public class PlayerControllerSideView : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to the sceneLoaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 1;
     }
     
     private void OnDisable()
@@ -144,12 +146,6 @@ public class PlayerControllerSideView : MonoBehaviour
         active = true;
         _deathBoxCollider.enabled = true;
         MiniJump();
-    }
-    
-    private void OnEnable()
-    {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 1;
     }
 
 
