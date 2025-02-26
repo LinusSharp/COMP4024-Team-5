@@ -27,14 +27,16 @@ public class ItemController : MonoBehaviour
         {
             itemCollected = true;
             Debug.Log("Collected Item: " + itemKey);
-
-            gameObject.SetActive(false);
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            GameObject parentObject = other.transform.parent.gameObject;
+            PlayerController player = parentObject.GetComponent<PlayerController>();
+            Debug.Log(player);
             if (player != null) {
+                Debug.Log("Player collected item and player not null");
                 player.IncreaseLevel();
                 Destroy(gameObject);
                 BackToLobby();
             }
+            gameObject.SetActive(false);
         }
     }
     public void BackToLobby()
