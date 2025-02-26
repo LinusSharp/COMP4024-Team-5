@@ -8,8 +8,10 @@ public class DoorTransition : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Door trigger entered.");
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player entered door trigger.");
             // Get the player's PlayerController component
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             
