@@ -218,7 +218,7 @@ MonoBehaviour:
   rb: {fileID: 7537698694476720034}
   floorBoxCollider: {fileID: 5567127904367798205}
   active: 1
-  deathBoxCollider: {fileID: 0}
+  deathBoxCollider: {fileID: 5641894769743847723}
   animator: {fileID: 1256657269052927480}
 --- !u!114 &483128290215924850
 MonoBehaviour:
