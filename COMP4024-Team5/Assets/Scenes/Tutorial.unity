@@ -1220,6 +1220,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
+--- !u!61 &878450822 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5641894769743847723, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+  m_PrefabInstance: {fileID: 8249409352406034795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &896816781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5874730683895985607, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
@@ -1995,11 +2000,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e63d974ef115432298cdf870b6c00ce, type: 3}
---- !u!60 &1256675225 stripped
-PolygonCollider2D:
-  m_CorrespondingSourceObject: {fileID: 717836865485164044, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
-  m_PrefabInstance: {fileID: 8249409352406034795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1348638823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3753,7 +3753,7 @@ PrefabInstance:
     - target: {fileID: 1866392601427309046, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: deathBoxCollider
       value: 
-      objectReference: {fileID: 1256675225}
+      objectReference: {fileID: 878450822}
     - target: {fileID: 5548929682344375670, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: m_TagString
       value: Player
