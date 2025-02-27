@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: efc1d515a593e4a9eacfc1f27ad39900
+guid: bb2eef6b75f55408fa6c993deb1e50fb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -79750942111202482
-    second: Platform 6x_0
-  - first:
-      213: -7476852103580394735
-    second: Platform 6x_1
-  - first:
-      213: -5502312754437763003
-    second: Platform 6x_2
-  - first:
-      213: -4352715531254645578
-    second: Platform 6x_3
-  - first:
-      213: 7368379453671067245
-    second: Platform 6x_4
+      213: 6439529868423091379
+    second: Double Crate (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -125,101 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Platform 6x_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 27
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4385f0d0faa4eef0800000000000000
-      internalID: -79750942111202482
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Platform 6x_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 20
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 11b55f730a2ec3890800000000000000
-      internalID: -7476852103580394735
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Platform 6x_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 13
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 540d2acc3bbd3a3b0800000000000000
-      internalID: -5502312754437763003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Platform 6x_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 6
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6bcbd37394c0893c0800000000000000
-      internalID: -4352715531254645578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Platform 6x_4
+      name: Double Crate (1)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 6
-        height: 7
+        width: 98
+        height: 189
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6ec952e21eb14660800000000000000
-      internalID: 7368379453671067245
+      spriteID: 3b450e71c4ecd5950800000000000000
+      internalID: 6439529868423091379
       vertices: []
       indices: 
       edges: []
@@ -248,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Platform 6x_0: -79750942111202482
-      Platform 6x_1: -7476852103580394735
-      Platform 6x_2: -5502312754437763003
-      Platform 6x_3: -4352715531254645578
-      Platform 6x_4: 7368379453671067245
+      Double Crate (1)_0: 6439529868423091379
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
