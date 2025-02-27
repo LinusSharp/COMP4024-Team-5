@@ -13,8 +13,7 @@ public class DoorTransition : MonoBehaviour
         {
             Debug.Log("Player entered door trigger.");
             // Get the player's PlayerController component
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            
+            PlayerController player = Object.FindFirstObjectByType<PlayerController>();
             // Check if the scene to load is "LevelSelector" (ignoring case) and if the player level is 4 or higher
             if (player != null && sceneToLoad.Equals("LevelSelector", System.StringComparison.OrdinalIgnoreCase) && player.level >= 5)
             {
