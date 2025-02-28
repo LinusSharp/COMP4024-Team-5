@@ -15,6 +15,10 @@ public class LevelTransition : MonoBehaviour
         {
             LockDoor();
         }
+        else
+        {
+            UnlockDoor();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +40,7 @@ public class LevelTransition : MonoBehaviour
 
     private bool IsLevelUnlocked()
     {
+        
         // Find the PlayerController in the scene
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
         if (player == null)
@@ -43,28 +48,31 @@ public class LevelTransition : MonoBehaviour
             Debug.LogWarning("No PlayerController found in the scene.");
             return false;
         }
-
-        Debug.Log(player.level);
+        
         // Only unlock the door that matches the player's current level
         return (player.level == levelNumber);
     }
 
     private void LockDoor()
     {
-        // Dim the door sprite
-        if (doorSprite != null)
-        {
-            Color lockedColor = doorSprite.color;
-            lockedColor.a = 0.5f; // Make it semi-transparent
-            doorSprite.color = lockedColor;
-        }
-
         // Disable the collider
         if (doorCollider != null)
         {
             doorCollider.enabled = false;
+            Debug.Log(doorCollider.enabled);
         }
 
         Debug.Log($"Level {levelNumber} is locked.");
+    }
+    
+    private void UnlockDoor()
+    {
+        // Dim the door sprite
+        if (doorSprite != null)
+        {
+            Color lockedColor = doorSprite.color;
+            lockedColor.a = 0f; // Make it semi-transparent
+            doorSprite.color = lockedColor;
+        }
     }
 }

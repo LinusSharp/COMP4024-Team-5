@@ -474,20 +474,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.b
-      value: 0.6862745
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.g
-      value: 0.29803923
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.r
-      value: 0.68252796
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: doorSprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 768523477}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: levelNumber
       value: 2
@@ -561,6 +565,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066cbea8010f64a7386828646242381a, type: 3}
+--- !u!212 &768523477 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+  m_PrefabInstance: {fileID: 768523476}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &908928286
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,16 +737,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.b
-      value: 0.6862745
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.g
-      value: 0.39372995
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: doorSprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1364776540}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: levelNumber
       value: 3
@@ -811,6 +828,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066cbea8010f64a7386828646242381a, type: 3}
+--- !u!212 &1364776540 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+  m_PrefabInstance: {fileID: 1364776539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1426830522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -821,20 +843,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.b
-      value: 0.29803923
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.g
-      value: 0.4012154
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.r
-      value: 0.6862745
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: doorSprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1426830523}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: sceneToLoad
       value: Level 1
@@ -908,6 +938,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066cbea8010f64a7386828646242381a, type: 3}
+--- !u!212 &1426830523 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+  m_PrefabInstance: {fileID: 1426830522}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1595944596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,20 +1109,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.b
-      value: 0.29803923
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.g
-      value: 0.6701417
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: m_Color.r
-      value: 0.6862745
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: doorSprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1607148329}
     - target: {fileID: 344378744010984815, guid: 066cbea8010f64a7386828646242381a, type: 3}
       propertyPath: levelNumber
       value: 4
@@ -1161,6 +1200,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066cbea8010f64a7386828646242381a, type: 3}
+--- !u!212 &1607148329 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 110252751352797472, guid: 066cbea8010f64a7386828646242381a, type: 3}
+  m_PrefabInstance: {fileID: 1607148328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2027497359
 PrefabInstance:
   m_ObjectHideFlags: 0

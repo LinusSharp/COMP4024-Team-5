@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - CollectableItem
+  - PlayerSpawn
+  - Door
   layers:
   - Default
   - TransparentFX
