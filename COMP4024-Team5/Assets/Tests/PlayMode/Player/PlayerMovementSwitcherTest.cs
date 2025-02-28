@@ -123,14 +123,14 @@ public class PlayerMovementSwitcherTests
         Assert.NotNull(method, "Could not find OnSceneLoaded method");
 
         // Create a mock scene
-        Scene mockScene = SceneManager.CreateScene("Level");
+        Scene mockScene = SceneManager.CreateScene("Level 1");
 
         // Invoke OnSceneLoaded via reflection
         method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
 
         // Assert correct controller state
-        Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Level.");
-        Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Level.");
+        Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Level 1.");
+        Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Level 1.");
     }
 
 }
