@@ -1,6 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 /// <summary>
-/// Controls the background music in the game, ensuring it loads across  all scenes.
+/// Controls the background music in the game.
+/// Supports different music for the different screens.
 /// </summary>
 public class AudioController : MonoBehaviour
 {
@@ -13,48 +16,70 @@ public class AudioController : MonoBehaviour
     /// The AudioSource component responsible for playing the background music.
     /// </summary>
     public AudioSource backgroundMusic;
-    
-    /// <summary>
-    /// It contains the background music file.
-    /// </summary>
-    public AudioClip musicClip; 
 
     /// <summary>
-    /// Called when the  instance is being loaded.
-    /// Ensures that only one instance of AudioController exists and loads  across scenes.
+    /// The default background music for the game levels.
+    /// </summary>
+    public AudioClip mainGameMusic;
+
+    /// <summary>
+    /// The background music when starting the game.
+    /// </summary>
+    public AudioClip startScreenMusic;
+
+    /// <summary>
+    /// Called when the instance is being loaded.
     /// </summary>
     private void Awake()
     {
-        
-        // Implement Singleton pattern 
-        
+      
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Keeps the music playing across scenes
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
-            Destroy(gameObject); // Destroy duplicate instances 
+            Destroy(gameObject); 
             return;
         }
 
-        // Get the AudioSource component attached to the game object
+        // Get the AudioSource
         backgroundMusic = GetComponent<AudioSource>();
-        // Start playing the background music
 
-        PlayBackgroundMusic(); 
+        // Subscribe to scene load events to change music dynamically
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Play the correct background music for the starting scene
+        UpdateMusic(SceneManager.GetActiveScene().name);
     }
 
     /// <summary>
-    /// Plays the background music.
+    /// Called whenever a new scene loads to check and update the background music.
     /// </summary>
-    public void PlayBackgroundMusic()
+    /// <param name="scene">The new loaded scene.</param>
+    /// <param name="mode">The scene load mode.</param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (backgroundMusic != null && musicClip != null)
+        UpdateMusic(scene.name);
+    }
+
+    /// <summary>
+    /// Plays the appropriate background music based on the scene name.
+    /// </summary>
+    /// <param name="sceneName">The name of the active scene.</param>
+    private void UpdateMusic(string sceneName)
+    {
+        if (backgroundMusic == null) return;
+
+        // Choose the correct music for the scene
+        AudioClip newMusic = sceneName == "Start" ? startScreenMusic : mainGameMusic;
+
+      
+        if (backgroundMusic.clip != newMusic)
         {
-            backgroundMusic.clip = musicClip;
-            backgroundMusic.loop = true;  // Ensures the music loops across all scenes. 
+            backgroundMusic.clip = newMusic;
+            backgroundMusic.loop = true;
             backgroundMusic.Play();
         }
     }
