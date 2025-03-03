@@ -3,11 +3,15 @@
 ## 👾 Project 
 
 ### Game Workflow:
-**Tutorial Level** The game must be developed in Unity
-**Lobby Area** The hub where the motherboard is displayed; collected parts are placed here.
-**Level Selector** Players progressively unlock and select levels, each representing a computer part.
-**Platformer Levels** Players navigate obstacles  to collect a computer component at the end.
-**Completion** Once all four parts are collected, the computer is fully assembled
+**Tutorial Level**  - The game must be developed in Unity
+
+**Lobby Area** - The hub where the motherboard is displayed; collected parts are placed here.
+
+**Level Selector** - Players progressively unlock and select levels, each representing a computer part.
+
+**Platformer Levels** -  Players navigate obstacles  to collect a computer component at the end.
+
+**Completion** - Once all four parts are collected, the computer is fully assembled
 
 
 ### 📊 Developement process and team work : 
