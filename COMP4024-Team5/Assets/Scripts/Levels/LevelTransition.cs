@@ -43,6 +43,7 @@ public class LevelTransition : MonoBehaviour
         
         // Find the PlayerController in the scene
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+        Debug.Log("player level " + player.level);
         if (player == null)
         {
             Debug.LogWarning("No PlayerController found in the scene.");

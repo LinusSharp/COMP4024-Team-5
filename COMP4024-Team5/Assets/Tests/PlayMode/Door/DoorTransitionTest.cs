@@ -3,8 +3,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
-using System.Collections.Generic;
-
 using System.Reflection;
 
 // Tests the DoorTransition.cs script
@@ -40,9 +38,64 @@ public class DoorTransitionTest
     [TearDown]
     public void TearDown()
     {
-        Object.Destroy(_player);
-        Object.Destroy(_door);
+        // Properly destroy test objects
+        if (_player != null)
+            Object.DestroyImmediate(_player);
+            
+        if (_door != null)
+            Object.DestroyImmediate(_door);
+            
+        // Unload all scenes except the test scene
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "InitTestScene") // Don't unload the test runner scene
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+    }
+    
+    [OneTimeTearDown]
+    public void OneTimeTeardown()
+    {
+        // Ensure all test scenes are unloaded after all tests
+        string[] scenesToUnload = new string[] { "Tutorial", "Lobby" };
         
+        foreach (string sceneName in scenesToUnload)
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                if (SceneManager.GetSceneAt(i).name == sceneName)
+                {
+                    SceneManager.UnloadSceneAsync(sceneName);
+                    break;
+                }
+            }
+        }
+    }
+    
+    private IEnumerator LoadSceneAndWait(string sceneName)
+    {
+        // Unload any previous scenes except test scene
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "InitTestScene") // Don't unload the test runner scene
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+        
+        // Wait for unloading to complete
+        yield return null;
+        
+        // Load the requested scene
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        
+        // Wait until the scene is fully loaded
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneName);
+        yield return new WaitForSeconds(0.2f); // Extra time for scene to initialize
     }
 
     [UnityTest]
@@ -50,20 +103,22 @@ public class DoorTransitionTest
     public IEnumerator Player_EntersDoor_TransitionsToNextScene()
     {
         // Load Tutorial Scene
-        SceneManager.LoadScene("Tutorial");
-        yield return new WaitForSeconds(0.1f);
+        yield return LoadSceneAndWait("Tutorial");
         
         string startingScene = SceneManager.GetActiveScene().name;
         Assert.AreEqual("Tutorial", startingScene, "Test didn't start in Tutorial scene");
         
+        // Get the OnTriggerEnter2D method using reflection
         MethodInfo triggerMethod = typeof(DoorTransition).GetMethod("OnTriggerEnter2D", 
             BindingFlags.NonPublic | BindingFlags.Instance);
         
+        // Trigger the door transition
         triggerMethod.Invoke(_doorTransition, new object[] { _player.GetComponent<Collider2D>() });
         
-        // Load next scene - should be Lobby from Tutorial
+        // Wait for scene transition
         yield return new WaitForSeconds(0.5f);
         
+        // Verify we're in the correct scene
         string finalScene = SceneManager.GetActiveScene().name;
         Assert.AreEqual("Lobby", finalScene, "Scene did not transition to Lobby");
     }
@@ -72,8 +127,7 @@ public class DoorTransitionTest
     // Test that player object is preserved when transitioning to next scene
     public IEnumerator DoorTransition_PreservesPlayerObject_OnNextScene()
     {
-        SceneManager.LoadScene("Tutorial");
-        yield return new WaitForSeconds(0.1f);
+        yield return LoadSceneAndWait("Tutorial");
         
         Assert.IsTrue(_player.activeSelf, "Player should be active before transition");
 
@@ -82,6 +136,7 @@ public class DoorTransitionTest
             BindingFlags.NonPublic | BindingFlags.Instance);
         triggerMethod.Invoke(_doorTransition, new object[] { _player.GetComponent<Collider2D>() });
 
+        // Wait for scene transition
         yield return new WaitForSeconds(0.5f);
         
         Assert.IsTrue(_player.activeSelf, "Player should remain active after transition");
@@ -90,7 +145,7 @@ public class DoorTransitionTest
 
     [UnityTest]
     // Test that the private sceneToLoad field is being assigned
-    public IEnumerator SceneToLoadField_isBeingSet()
+    public IEnumerator SceneToLoad_Field_IsBeingSet()
     {
         yield return null;
 
@@ -98,6 +153,6 @@ public class DoorTransitionTest
             BindingFlags.NonPublic | BindingFlags.Instance);
         string sceneToLoad = (string)field.GetValue(_doorTransition);
         
-        Assert.AreEqual("Lobby", sceneToLoad, "Door's sceneToLoad field is not set to correctly");
+        Assert.AreEqual("Lobby", sceneToLoad, "Door's sceneToLoad field is not set correctly");
     }
 }

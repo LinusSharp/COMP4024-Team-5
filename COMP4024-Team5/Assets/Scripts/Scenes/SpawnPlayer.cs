@@ -5,6 +5,11 @@ public class SpawnPlayer : MonoBehaviour
 {
     private void Start()
     {
+        InitSpawn();
+    }
+
+    public void InitSpawn()
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -44,6 +49,5 @@ public class SpawnPlayer : MonoBehaviour
                 playerController.SetRespawnPoint();
             }
         }
-        
     }
 }

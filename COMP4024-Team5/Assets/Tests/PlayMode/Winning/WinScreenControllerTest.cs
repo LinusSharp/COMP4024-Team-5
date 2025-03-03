@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
 
 public class WinScreenControllerTests
 {
@@ -31,12 +32,21 @@ public class WinScreenControllerTests
         
         if (_winScreenObject != null)
             Object.Destroy(_winScreenObject);
+        
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene != SceneManager.GetActiveScene())
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
     }
 
     [UnityTest]
     public IEnumerator WinScreenController_Start_DestroysPlayer()
     {
-        // Act - this will trigger the Start() method
+        // trigger the Start() method
         _winScreenController.enabled = false;
         _winScreenController.enabled = true;
         

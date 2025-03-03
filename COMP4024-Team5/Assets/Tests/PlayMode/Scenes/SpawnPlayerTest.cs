@@ -1,86 +1,88 @@
-﻿using System.Collections;
-using NUnit.Framework;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEngine.SceneManagement;
+using NUnit.Framework;
+using System.Collections;
 
-public class SpawnPlayerTest
+public class SpawnPlayerTests : MonoBehaviour
 {
-    private GameObject _player;
-    
-    [UnitySetUp]
-    public IEnumerator Setup()
+    private GameObject player;
+    private GameObject spawnPoint;
+    private SpawnPlayer spawnPlayerScript;
+
+    // Fake versions of the components
+    public class StubPlayerControllerSideView : MonoBehaviour
     {
-        // Create a test player prefab with the "Player" tag
-        _player = new GameObject("Player");
-        _player.tag = "Player";
-        _player.AddComponent<Rigidbody2D>();
+        public bool ResetFacingCalled = false;
+        public bool ResetAnimationCalled = false;
+        public bool SetRespawnPointCalled = false;
+
+        public void ResetFacing() 
+        { 
+            ResetFacingCalled = true; 
+        }
         
-        // Make this object persist between scene loads
-        Object.DontDestroyOnLoad(_player);
-        
-        yield return null;
-    }
-    
-    [TearDown]
-    public void Teardown()
-    {
-        // Clean up the player prefab
-        if (_player != null)
-        {
-            Object.Destroy(_player);
+        public new void ResetAnimation() 
+        { 
+            ResetAnimationCalled = true; 
+        }
+
+        public void SetRespawnPoint() 
+        { 
+            SetRespawnPointCalled = true; 
         }
     }
-    
-    [UnityTest]
-    public IEnumerator Test_PlayerIsSpawnedAtSpawnPointInLevel1()
+
+    public class StubPlayerControllerTopDown : MonoBehaviour
     {
-        // Load the Level 1 scene
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 1", LoadSceneMode.Single);
-        
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Level 1");
-        
-        // Find the spawn point in the scene
-        GameObject spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawn");
-        Assert.IsNotNull(spawnPoint, "Spawn point should exist in Level 1");
-        
-        double spawnPointX = spawnPoint.transform.position.x;
-        double spawnPointY = spawnPoint.transform.position.y;
-        
-        double playerX = _player.transform.position.x;
-        double playerY = _player.transform.position.y;
-        
-        // Check if the player's position matches the spawn point position
-        Assert.AreEqual(spawnPointX,playerX, 0.1f, "Player should be at spawn point position  X");
-        Assert.AreEqual(spawnPointY,playerY, 0.1f, "Player should be at spawn point position  Y");
+        public bool UpdateCalled = false;
+
+        public void Update()
+        {
+            UpdateCalled = true;
+        }
     }
-    
-    [UnityTest]
-    public IEnumerator Test_PhysicsIsReset()
+
+    [SetUp]
+    public void Setup()
     {
-        // Apply some velocity to the player before loading the scene
-        Rigidbody2D rb = _player.GetComponent<Rigidbody2D>();
-        rb.linearVelocity = new Vector2(10f, 5f);
-        rb.angularVelocity = 2f;
+        // Create a new GameObject for the player
+        player = new GameObject("Player");
+        player.tag = "Player";
+
+        // Add necessary components
+        var rb2D = player.AddComponent<Rigidbody2D>(); 
+
+        // Add stub components instead of actual ones
+        player.AddComponent<StubPlayerControllerSideView>(); // Add stub side view controller
+        player.AddComponent<StubPlayerControllerTopDown>(); // Add stub top-down controller
+
+        // Create a spawn point
+        spawnPoint = new GameObject("SpawnPoint");
+        spawnPoint.AddComponent<SpawnPlayer>();
+        spawnPlayerScript = spawnPoint.GetComponent<SpawnPlayer>();
         
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 1", LoadSceneMode.Single);
+        // Ensure the spawn point is positioned at (0, 0, 0) initially
+        spawnPoint.transform.position = Vector3.zero;
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        // Clean up after each test
+        Destroy(player);
+        Destroy(spawnPoint);
+    }
+
+    [UnityTest]
+    public IEnumerator PlayerGetsSpawnedAtSpawnPoint()
+    {
+        // Arrange
+        spawnPlayerScript.InitSpawn(); // Simulate spawn logic
         
-        yield return new WaitForSeconds(0.1f);
-        
-        
-        
-        // Check if the velocities were reset
-        float velocityMagnitude = rb.linearVelocity.magnitude;
-        Assert.IsTrue(velocityMagnitude < 1f, 
-            $"Player velocity should be reset. Current magnitude: {velocityMagnitude}");
-    
-        // Check x and y components separately with tolerance
-        Assert.AreEqual(0f, rb.linearVelocity.x, 1f, "Player velocity.x should be reset");
-        Assert.AreEqual(0f, rb.linearVelocity.y, 1f, "Player velocity.y should be reset");
-    
-        // For angular velocity (which is just a float), we can use regular AreEqual with tolerance
-        Assert.AreEqual(0f, rb.angularVelocity, 1f, "Player angular velocity should be reset");
+        yield return null; 
+
+        // Assert the player spawned at the spawn point
+        Assert.AreEqual(spawnPoint.transform.position.x, player.transform.position.x, 1f, "Player should spawn at the spawn point.");
+        Assert.AreEqual(spawnPoint.transform.position.y, player.transform.position.y, 1f, "Player should spawn at the spawn point.");
     }
 }

@@ -30,204 +30,223 @@ public class CameraControllerTests
         // Set initial positions
         _camera.transform.position = new Vector3(0f, 0f, -10f);
         _player.transform.position = Vector3.zero;
-        yield return null;
         
+        yield return null;
     }
 
     [TearDown]
     public void Teardown()
     {
+        // Properly clean up all created objects
         if (_camera != null)
             Object.DestroyImmediate(_camera);
+        
         if (_player != null)
             Object.DestroyImmediate(_player);
+            
+        // Unload all scenes that might have been loaded during the test
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "TestScene")
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+    }
+    
+    [OneTimeTearDown]
+    public void OneTimeTeardown()
+    {
+        // This runs after all tests, ensure any leftover scenes are unloaded
+        string[] scenesToUnload = new string[] {
+            "Tutorial", "Level 1", "Level 2", "Level 3", "Level 4", "Lobby", "LevelSelector"
+        };
+        
+        foreach (string sceneName in scenesToUnload)
+        {
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                if (SceneManager.GetSceneAt(i).name == sceneName)
+                {
+                    SceneManager.UnloadSceneAsync(sceneName);
+                    break;
+                }
+            }
+        }
+    }
+
+    private IEnumerator LoadTestScene(string sceneName)
+    {
+        // First unload any existing scenes except the test scene
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "TestScene") // Don't unload the test runner scene
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+        
+        // Wait a frame for unloading to complete
+        yield return null;
+        
+        // First load the Tutorial scene as it contains necessary setup
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Tutorial");
+        yield return new WaitForSeconds(0.2f);
+        
+        // If we're testing a different scene, load that now
+        if (sceneName != "Tutorial")
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneName);
+            yield return new WaitForSeconds(0.2f);
+        }
+        
+        // Find the necessary objects in the scene
+        _cameraController = Object.FindFirstObjectByType<CameraController>();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        
+        // Basic validation
+        Assert.IsNotNull(_cameraController, $"CameraController not found in {sceneName} scene.");
+        Assert.IsNotNull(_player, $"Player not found in {sceneName} scene.");
+        
+        yield return null;
     }
 
     [UnityTest]
     public IEnumerator CameraFollowsPlayerInTutorialScene()
     {
-        SceneManager.LoadScene("Tutorial");
-        yield return new WaitForSeconds(1f);
+        yield return LoadTestScene("Tutorial");
         
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
-        Assert.AreEqual(-10.7f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
-    
+        // Record initial position
+        Vector3 initialCameraPos = _cameraController.transform.position;
+        Assert.AreEqual(-10.7f, initialCameraPos.x, 0.1f, "Camera should be at initial position.");
+        
+        // Move player and check camera follows
         _player.transform.position = new Vector3(5f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-    
-        Assert.AreEqual(5f,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
-    
+        yield return null; // Extra frame to ensure camera movement
+        
+        Assert.AreEqual(5f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
     [UnityTest]
     public IEnumerator CameraFollowsPlayerInLevel1Scene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 1", LoadSceneMode.Single);
-        
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Level 1");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
+        yield return LoadTestScene("Level 1");
         
         // Move player and check camera follows
-        _player.transform.position = new Vector3(-1, 0f, 0f);
+        _player.transform.position = new Vector3(-1f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(-1f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(10, 0f, 0f);
+        yield return null;
+        
+        Assert.AreEqual(-1f, _cameraController.transform.position.x, 0.1f, "Camera should be at initial position.");
+        
+        _player.transform.position = new Vector3(10f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(10,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
     [UnityTest]
     public IEnumerator CameraFollowsPlayerInLevel2Scene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 2", LoadSceneMode.Single);
-        
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Level 2");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
+        yield return LoadTestScene("Level 2");
         
         // Move player and check camera follows
-        _player.transform.position = new Vector3(-1, 0f, 0f);
+        _player.transform.position = new Vector3(-1f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(-1f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(10, 0f, 0f);
+        yield return null;
+        
+        Assert.AreEqual(-1f, _cameraController.transform.position.x, 0.1f, "Camera should be at initial position.");
+        
+        _player.transform.position = new Vector3(10f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(10,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
     [UnityTest]
     public IEnumerator CameraFollowsPlayerInLevel3Scene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 3", LoadSceneMode.Single);
-        
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Level 3");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
+        yield return LoadTestScene("Level 3");
         
         // Move player and check camera follows
-        _player.transform.position = new Vector3(-1, 0f, 0f);
+        _player.transform.position = new Vector3(-1f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(-1f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(10, 0f, 0f);
+        yield return null;
+        
+        Assert.AreEqual(-1f, _cameraController.transform.position.x, 0.1f, "Camera should be at initial position.");
+        
+        _player.transform.position = new Vector3(10f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(10,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
     [UnityTest]
     public IEnumerator CameraFollowsPlayerInLevel4Scene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Level 4", LoadSceneMode.Single);
-        
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Level 4");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
+        yield return LoadTestScene("Level 4");
         
         // Move player and check camera follows
-        _player.transform.position = new Vector3(-1, 0f, 0f);
+        _player.transform.position = new Vector3(-1f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(-1f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(10, 0f, 0f);
+        yield return null;
+        
+        Assert.AreEqual(-1f, _cameraController.transform.position.x, 0.1f, "Camera should be at initial position.");
+        
+        _player.transform.position = new Vector3(10f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(10,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
 
     [UnityTest]
     public IEnumerator CameraStaysStillInLobbyScene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+        yield return LoadTestScene("Lobby");
         
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Lobby");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
-        Assert.AreEqual(0,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
+        // Record initial camera position
+        Vector3 initialCameraPos = _cameraController.transform.position;
+        Assert.AreEqual(0f, initialCameraPos.x, 0.1f, "Camera should be at initial position.");
         
-        // Move player and check camera follows
-        _player.transform.position = new Vector3(-6, 0f, 0f);
+        // Move player and verify camera doesn't move
+        _player.transform.position = new Vector3(-6f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(2, 0f, 0f);
+        yield return null;
+        
+        _player.transform.position = new Vector3(2f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(0,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(0f, _cameraController.transform.position.x, 0.1f, "Camera should not have moved.");
     }
     
     [UnityTest]
     public IEnumerator CameraStaysStillInLevelSelectorScene()
     {
-        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
+        yield return LoadTestScene("LevelSelector");
         
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "LevelSelector");
-    
-        // Check if player exists (since it's spawned dynamically in normal gameplay)
-        _player = GameObject.FindGameObjectWithTag("Player");
-    
-        // Find CameraController
-        _cameraController = GameObject.FindFirstObjectByType<CameraController>();
-        Assert.IsNotNull( _cameraController, "CameraController not found in scene.");
-        Assert.IsNotNull(_player, "Player not found in scene.");
-        Assert.AreEqual(0f,  _cameraController.transform.position.x, 0.1f, "Camera in initial position.");
+        // Record initial camera position
+        Vector3 initialCameraPos = _cameraController.transform.position;
+        Assert.AreEqual(0f, initialCameraPos.x, 0.1f, "Camera should be at initial position.");
         
-        // Move player and check camera follows
-        _player.transform.position = new Vector3(-6, 0f, 0f);
+        // Move player and verify camera doesn't move
+        _player.transform.position = new Vector3(-6f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-        _player.transform.position = new Vector3(2, 0f, 0f);
+        yield return null;
+        
+        _player.transform.position = new Vector3(2f, 0f, 0f);
         yield return new WaitForFixedUpdate();
-        // yield return new WaitForSeconds(1f);
-    
-        Assert.AreEqual(0,  _cameraController.transform.position.x, 0.1f, "Camera should have moved.");
+        yield return null;
+        
+        Assert.AreEqual(0f, _cameraController.transform.position.x, 0.1f, "Camera should not have moved.");
     }
 }

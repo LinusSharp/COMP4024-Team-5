@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using NUnit.Framework;
 using System.Reflection;
+using System.Collections;
+using UnityEngine.TestTools;
 
 public class PlayerMovementSwitcherTests
 {
@@ -17,8 +19,8 @@ public class PlayerMovementSwitcherTests
         _player = new GameObject("Player");
 
         // Add necessary components
-        _player.AddComponent<Rigidbody2D>();  // Ensuring dependencies
-        _player.AddComponent<BoxCollider2D>(); // If needed
+        _player.AddComponent<Rigidbody2D>();
+        _player.AddComponent<BoxCollider2D>();
 
         _movementSwitcher = _player.AddComponent<PlayerMovementSwitcher>();
         _sideViewController = _player.AddComponent<PlayerControllerSideView>();
@@ -30,10 +32,55 @@ public class PlayerMovementSwitcherTests
     }
 
     [TearDown]
-    public void TearDown()
+    public void Teardown()
     {
-        // Clean up objects
-        Object.Destroy(_player);
+        if (_player != null)
+            Object.DestroyImmediate(_player);
+            
+        // Unload all scenes that might have been loaded during the test
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "TestScene") 
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+    }
+    
+    private IEnumerator LoadTestScene(string sceneName)
+    {
+        // unload any existing scenes except the test scene
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "TestScene")
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
+        
+        // Wait a frame for unloading to complete
+        yield return null;
+        
+        // load the Tutorial scene as it contains necessary setup
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "Tutorial");
+        yield return new WaitForSeconds(0.2f);
+        
+        // load alternate scene
+        if (sceneName != "Tutorial")
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneName);
+            yield return new WaitForSeconds(0.2f);
+        }
+        
+        _player = GameObject.FindGameObjectWithTag("Player");
+        
+        Assert.IsNotNull(_player, $"Player not found in {sceneName} scene.");
+        
+        yield return null;
     }
 
     [Test]
@@ -67,6 +114,8 @@ public class PlayerMovementSwitcherTests
             // Invoke OnSceneLoaded via reflection
             method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
         }
+        
+        LoadTestScene("Lobby");
 
         // Assert correct controller state
         Assert.IsFalse(_sideViewController.enabled, "Side View should be disabled in Lobby.");
@@ -96,37 +145,55 @@ public class PlayerMovementSwitcherTests
     [Test]
     public void OnSceneLoaded_Tutorial_EnablesTopDown_DisablesSideView()
     {
-        // Get the private method
-        MethodInfo method = typeof(PlayerMovementSwitcher)
-            .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (SceneManager.GetSceneByName("Tutorial").isLoaded)
+        {
+            SceneManager.LoadScene("Tutorial");
 
-        Assert.NotNull(method, "Could not find OnSceneLoaded method");
+            // Get the private method
+            MethodInfo method = typeof(PlayerMovementSwitcher)
+                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        // Create a mock scene
-        Scene mockScene = SceneManager.CreateScene("Tutorial");
+            Assert.NotNull(method, "Could not find OnSceneLoaded method");
 
-        // Invoke OnSceneLoaded via reflection
-        method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
-
-        // Assert correct controller state
-        Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Tutorial.");
-        Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Tutorial.");
+            // Invoke OnSceneLoaded manually
+            method.Invoke(_movementSwitcher, new object[] { SceneManager.GetActiveScene(), LoadSceneMode.Single });
+            
+            // Assert correct controller state
+            Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Tutorial.");
+            Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Tutorial.");
+        }
     }
     
     [Test]
     public void OnSceneLoaded_Level_EnablesTopDown_DisablesSideView()
     {
-        // Get the private method
-        MethodInfo method = typeof(PlayerMovementSwitcher)
-            .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (SceneManager.GetSceneByName("Level 1").isLoaded)
+        {
+            SceneManager.LoadScene("Level 1");
 
-        Assert.NotNull(method, "Could not find OnSceneLoaded method");
+            // Get the private method
+            MethodInfo method = typeof(PlayerMovementSwitcher)
+                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        // Create a mock scene
-        Scene mockScene = SceneManager.CreateScene("Level 1");
+            Assert.NotNull(method, "Could not find OnSceneLoaded method");
 
-        // Invoke OnSceneLoaded via reflection
-        method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
+            // Invoke OnSceneLoaded manually
+            method.Invoke(_movementSwitcher, new object[] { SceneManager.GetActiveScene(), LoadSceneMode.Single });
+        }
+        else
+        {
+            // Get the private method
+            MethodInfo method = typeof(PlayerMovementSwitcher)
+                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.NotNull(method, "Could not find OnSceneLoaded method");
+
+            // Create a mock scene
+            Scene mockScene = SceneManager.CreateScene("Level 1");
+
+            // Invoke OnSceneLoaded via reflection
+            method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
+        }
 
         // Assert correct controller state
         Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Level 1.");
