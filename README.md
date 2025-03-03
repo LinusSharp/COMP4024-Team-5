@@ -2,10 +2,13 @@
 
 ## 👾 Project 
 
-### 📑 Requirements:
-* The game must be developed in Unity
-* 2D game
-* Target audience : Kids aged between 10-14 years.
+### Game Workflow:
+**Tutorial Level** The game must be developed in Unity
+**Lobby Area** The hub where the motherboard is displayed; collected parts are placed here.
+**Level Selector** Players progressively unlock and select levels, each representing a computer part.
+**Platformer Levels** Players navigate obstacles  to collect a computer component at the end.
+**Completion** Once all four parts are collected, the computer is fully assembled
+
 
 ### 📊 Developement process and team work : 
 
@@ -13,7 +16,7 @@
     * 📌 Use Trello and GitHub to manage tasks.
     * 📌 Define use cases to describe expected player interactions 
 
-* 🛠️ Git workflow: 
+* 🛠️ Git workflow:  
     * 📌 Use branches to collaborate
     * 📌 Follow good commit practices 
 
