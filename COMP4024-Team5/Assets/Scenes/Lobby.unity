@@ -887,11 +887,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundImage: {fileID: 926424719}
   levelBackgrounds:
-  - {fileID: -1302682319667926888, guid: d4434dabdabc54cfc9a40f642302cbec, type: 3}
-  - {fileID: -4238762649066405001, guid: d71dec7ccdd33437690c9122fb715a4b, type: 3}
-  - {fileID: -3060161411789485109, guid: 026af04481fe340a19eef0e51f9b010d, type: 3}
-  - {fileID: -7130078541137780717, guid: 88abbb359ff474244b4d188579908402, type: 3}
-  - {fileID: -7723379801009134846, guid: b62a8e0ba7c8e4042b0d03722942c75e, type: 3}
+  - {fileID: 8995154407686431259, guid: de9a6ab0cb7174508a830a7d812d65db, type: 3}
+  - {fileID: 8309096688390797820, guid: 04cd3cd19cbdc48faa90ab8f8d15fa1e, type: 3}
+  - {fileID: -8224449061652494951, guid: eef8f46ab64f74542997f70f3277253b, type: 3}
+  - {fileID: 2643319134783610625, guid: 695523cd190a54d00b8049c69fa029d6, type: 3}
+  - {fileID: -5063605252318705730, guid: 28957820ac2004841b3919586feea84e, type: 3}
 --- !u!1 &1186561136
 GameObject:
   m_ObjectHideFlags: 0
