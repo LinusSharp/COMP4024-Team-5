@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ice Spikes_0: -8198920998408271122
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

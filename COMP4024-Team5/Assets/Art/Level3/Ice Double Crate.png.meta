@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ice Double Crate_0: 6081619159163114693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
