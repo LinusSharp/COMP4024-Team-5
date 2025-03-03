@@ -4,7 +4,7 @@ public class WinScreenController : MonoBehaviour
 {
     private void Start()
     {
-        PlayerController player = FindObjectOfType<PlayerController>();
+        PlayerController player = Object.FindFirstObjectByType<PlayerController>();
         if (player != null)
         {
             Destroy(player.gameObject);
