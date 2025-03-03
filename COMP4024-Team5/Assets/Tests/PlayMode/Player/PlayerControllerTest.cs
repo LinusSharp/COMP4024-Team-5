@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using NUnit.Framework;
+using UnityEngine.SceneManagement;
 
 // Tests the PlayerController.cs script
 public class PlayerControllerTest
@@ -18,9 +19,22 @@ public class PlayerControllerTest
     [TearDown]
     public void Teardown()
     {
-        // Clean up after each test
-        Object.DestroyImmediate(_player);
+        // Destroy player instance if it exists
+        if (_player != null)
+        {
+            Object.DestroyImmediate(_player);
+        }
+      
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name != "InitTestScene")
+            {
+                SceneManager.UnloadSceneAsync(scene);
+            }
+        }
     }
+    
 
     [Test]
     public void Singleton_FirstInstance_ShouldNotBeDestroyed()
@@ -44,7 +58,7 @@ public class PlayerControllerTest
         PlayerController secondController = secondObject.AddComponent<PlayerController>();
         secondController.enabled = true;
 
-        // Wait one frame to allow for destruction
+        // Ensure that second instance was destroyed properly
         Assert.IsFalse(secondController == null);
 
         // Clean up

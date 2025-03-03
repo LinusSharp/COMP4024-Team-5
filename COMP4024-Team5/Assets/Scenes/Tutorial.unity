@@ -3754,6 +3754,10 @@ PrefabInstance:
       propertyPath: deathBoxCollider
       value: 
       objectReference: {fileID: 878450822}
+    - target: {fileID: 3482677681373342194, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5548929682344375670, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: m_TagString
       value: Player
