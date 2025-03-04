@@ -114,26 +114,9 @@ public class CameraControllerTests
         
         yield return null;
     }
-
+    // Test ID: 1
     [UnityTest]
-    public IEnumerator CameraFollowsPlayerInTutorialScene()
-    {
-        yield return LoadTestScene("Tutorial");
-        
-        // Record initial position
-        Vector3 initialCameraPos = _cameraController.transform.position;
-        Assert.AreEqual(-10.7f, initialCameraPos.x, 0.1f, "Camera should be at initial position.");
-        
-        // Move player and check camera follows
-        _player.transform.position = new Vector3(5f, 0f, 0f);
-        yield return new WaitForFixedUpdate();
-        yield return null; // Extra frame to ensure camera movement
-        
-        Assert.AreEqual(5f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
-    }
-    
-    [UnityTest]
-    public IEnumerator CameraFollowsPlayerInLevel1Scene()
+    public IEnumerator Camera_FollowsPlayer_InLevel1Scene()
     {
         yield return LoadTestScene("Level 1");
         
@@ -151,8 +134,9 @@ public class CameraControllerTests
         Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
+    // Test ID: 2
     [UnityTest]
-    public IEnumerator CameraFollowsPlayerInLevel2Scene()
+    public IEnumerator Camera_FollowsPlayer_InLevel2Scene()
     {
         yield return LoadTestScene("Level 2");
         
@@ -170,8 +154,9 @@ public class CameraControllerTests
         Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
+    // Test ID: 3
     [UnityTest]
-    public IEnumerator CameraFollowsPlayerInLevel3Scene()
+    public IEnumerator Camera_FollowsPlayer_InLevel3Scene()
     {
         yield return LoadTestScene("Level 3");
         
@@ -189,8 +174,9 @@ public class CameraControllerTests
         Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
     
+    // Test ID: 4
     [UnityTest]
-    public IEnumerator CameraFollowsPlayerInLevel4Scene()
+    public IEnumerator Camera_FollowsPlayer_InLevel4Scene()
     {
         yield return LoadTestScene("Level 4");
         
@@ -207,11 +193,30 @@ public class CameraControllerTests
         
         Assert.AreEqual(10f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
     }
-
+    
+    // Test ID: 5
     [UnityTest]
-    public IEnumerator CameraStaysStillInLobbyScene()
+    public IEnumerator Camera_FollowsPlayer_InTutorialScene()
     {
-        yield return LoadTestScene("Lobby");
+        yield return LoadTestScene("Tutorial");
+        
+        // Record initial position
+        Vector3 initialCameraPos = _cameraController.transform.position;
+        Assert.AreEqual(-10.7f, initialCameraPos.x, 0.1f, "Camera should be at initial position.");
+        
+        // Move player and check camera follows
+        _player.transform.position = new Vector3(5f, 0f, 0f);
+        yield return new WaitForFixedUpdate();
+        yield return null; // Extra frame to ensure camera movement
+        
+        Assert.AreEqual(5f, _cameraController.transform.position.x, 0.1f, "Camera should have moved to follow player.");
+    }
+    
+    // Test ID: 6
+    [UnityTest]
+    public IEnumerator Camera_StaysStill_InLevelSelectorScene()
+    {
+        yield return LoadTestScene("LevelSelector");
         
         // Record initial camera position
         Vector3 initialCameraPos = _cameraController.transform.position;
@@ -230,9 +235,9 @@ public class CameraControllerTests
     }
     
     [UnityTest]
-    public IEnumerator CameraStaysStillInLevelSelectorScene()
+    public IEnumerator Camera_StaysStill_InLobbyScene()
     {
-        yield return LoadTestScene("LevelSelector");
+        yield return LoadTestScene("Lobby");
         
         // Record initial camera position
         Vector3 initialCameraPos = _cameraController.transform.position;
