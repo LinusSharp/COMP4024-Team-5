@@ -5,25 +5,35 @@ public class PlayerControllerTopDown : MonoBehaviour
     public float speed = 5f;
     
     private Rigidbody2D rb;
-
     public Animator animator;
     private bool facingRight = true;
+
+    // --- Running Sound Variables ---
+    public AudioSource loopingAudioSource;
+    public AudioClip footstepSound;
+    public float footstepVolume = 0.5f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // sets the gravity to 0
+    // Sets gravity to 0 and ensures an AudioSource is available.
     private void OnEnable()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
+        
+        // Ensure there's a loopingAudioSource.
+        if (loopingAudioSource == null)
+        {
+            loopingAudioSource = GetComponent<AudioSource>();
+        }
     }
 
     private void Update()
     {
-        // movement in all directions 
+        // Get movement input from Horizontal and Vertical axes.
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
@@ -36,10 +46,31 @@ public class PlayerControllerTopDown : MonoBehaviour
             Flip();
         }
 
-        animator.SetFloat("Speed", Mathf.Abs(moveX));
+        Vector2 movement = new Vector2(moveX, moveY);
 
-        Vector2 movement = new Vector2(moveX, moveY) * speed;
-        rb.linearVelocity = movement;
+        animator.SetFloat("Speed", movement.magnitude);
+
+        rb.linearVelocity = movement * speed;
+
+        if (movement.magnitude > 0.1f)
+        {
+            if (loopingAudioSource.clip != footstepSound || !loopingAudioSource.isPlaying)
+            {
+                loopingAudioSource.Stop();
+                loopingAudioSource.clip = footstepSound;
+                loopingAudioSource.loop = true;
+                loopingAudioSource.volume = footstepVolume;
+                loopingAudioSource.Play();
+            }
+        }
+        else
+        {
+            // Stop the running sound when idle.
+            if (loopingAudioSource.isPlaying && loopingAudioSource.clip == footstepSound)
+            {
+                loopingAudioSource.Stop();
+            }
+        }
     }
 
     private void Flip()
@@ -50,7 +81,6 @@ public class PlayerControllerTopDown : MonoBehaviour
 
     public void ResetAnimation()
     {
-        animator.SetBool("IsJumping", false);
         animator.SetFloat("Speed", 0f);
     }
 }
