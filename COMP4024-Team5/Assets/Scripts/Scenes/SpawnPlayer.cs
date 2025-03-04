@@ -32,9 +32,10 @@ public class SpawnPlayer : MonoBehaviour
             }
 
             PlayerControllerTopDown topView = player.GetComponent<PlayerControllerTopDown>();
-            if (sideView != null)
+            if (topView != null)
             {
-                sideView.ResetAnimation();
+                topView.ResetAnimation();
+                topView.ResetFacing();
             }
         }
         
