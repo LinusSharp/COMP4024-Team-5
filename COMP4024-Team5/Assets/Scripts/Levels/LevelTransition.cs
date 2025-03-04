@@ -1,13 +1,41 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Handles level transitions through doors, checking if the player has unlocked the level.
+/// </summary>
 public class LevelTransition : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad; 
-    [SerializeField] private int levelNumber; // The level this door represents
-    [SerializeField] private SpriteRenderer doorSprite; // Reference to the door's SpriteRenderer
-    [SerializeField] private Collider2D doorCollider;   // Reference to the door's Collider2D
+    
+    
+    /// <summary>
+    /// The name of the scene to load when the player enters the unlocked level door.
+    /// </summary>
 
+    [SerializeField] private string sceneToLoad; 
+    
+    /// <summary>
+    /// The level number associated with this door.
+    /// </summary>
+    [SerializeField] private int levelNumber; 
+    
+    
+    /// <summary>
+    /// Reference to the door's sprite renderer.
+    /// </summary>
+    [SerializeField] private SpriteRenderer doorSprite;
+    
+    
+    /// <summary>
+    /// Reference to the door's Collider2D.
+    /// Used to prevent entry if the level is locked.
+    /// </summary>
+    [SerializeField] private Collider2D doorCollider;   
+
+    
+    
+    /// <summary>
+    /// Checks if the level is unlocked at the start.
+    /// </summary>
     private void Start()
     {
         // If this door is not the player's current level, lock it
@@ -21,6 +49,11 @@ public class LevelTransition : MonoBehaviour
         }
     }
 
+    
+    /// <summary>
+    /// Detects when the player enters the door trigger and transitions to the level.
+    /// </summary>
+    /// <param name="other">The collider that triggered the transition.</param>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -37,7 +70,10 @@ public class LevelTransition : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Checks if the player has unlocked this level.
+    /// </summary>
+    /// <returns>True if the player has unlocked the level, false otherwise.</returns>
     private bool IsLevelUnlocked()
     {
         
@@ -54,6 +90,9 @@ public class LevelTransition : MonoBehaviour
         return (player.level == levelNumber);
     }
 
+    /// <summary>
+    /// Locks the door.
+    /// </summary>
     private void LockDoor()
     {
         // Disable the collider
