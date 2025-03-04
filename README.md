@@ -3,7 +3,7 @@
 ## 👾 Project 
 
 ### Game Workflow:
-**Tutorial Level**  - The game must be developed in Unity
+**Tutorial Level**  -  A short introductory level teaching players the basic controls and mechanics 
 
 **Lobby Area** - The hub where the motherboard is displayed; collected parts are placed here.
 
