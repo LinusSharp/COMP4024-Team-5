@@ -83,4 +83,12 @@ public class PlayerControllerTopDown : MonoBehaviour
     {
         animator.SetFloat("Speed", 0f);
     }
+
+    public void ResetFacing()
+    {
+        facingRight = true;
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x);
+        transform.localScale = scale;
+    }
 }
