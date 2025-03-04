@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controls the background music in the game.
-/// Supports different music for the different screens.
+/// Supports different music for different screens.
 /// </summary>
 public class AudioController : MonoBehaviour
 {
@@ -23,28 +23,37 @@ public class AudioController : MonoBehaviour
     public AudioClip mainGameMusic;
 
     /// <summary>
-    /// The background music when starting the game.
+    /// The background music for the start screen.
     /// </summary>
     public AudioClip startScreenMusic;
+
+    /// <summary>
+    /// The background music for the lobby.
+    /// </summary>
+    public AudioClip lobbyMusic;
+
+    /// <summary>
+    /// The background music for the level selector.
+    /// </summary>
+    public AudioClip levelSelectorMusic;
 
     /// <summary>
     /// Called when the instance is being loaded.
     /// </summary>
     private void Awake()
     {
-      
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
             return;
         }
 
-        // Get the AudioSource
+        // Get the AudioSource component
         backgroundMusic = GetComponent<AudioSource>();
 
         // Subscribe to scene load events to change music dynamically
@@ -57,7 +66,7 @@ public class AudioController : MonoBehaviour
     /// <summary>
     /// Called whenever a new scene loads to check and update the background music.
     /// </summary>
-    /// <param name="scene">The new loaded scene.</param>
+    /// <param name="scene">The newly loaded scene.</param>
     /// <param name="mode">The scene load mode.</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -73,9 +82,16 @@ public class AudioController : MonoBehaviour
         if (backgroundMusic == null) return;
 
         // Choose the correct music for the scene
-        AudioClip newMusic = sceneName == "Start" ? startScreenMusic : mainGameMusic;
+        AudioClip newMusic = mainGameMusic; 
 
-      
+        if (sceneName == "Start")
+            newMusic = startScreenMusic;
+        else if (sceneName == "Lobby")
+            newMusic = lobbyMusic;
+        else if (sceneName == "LevelSelector")
+            newMusic = levelSelectorMusic;
+
+       
         if (backgroundMusic.clip != newMusic)
         {
             backgroundMusic.clip = newMusic;
