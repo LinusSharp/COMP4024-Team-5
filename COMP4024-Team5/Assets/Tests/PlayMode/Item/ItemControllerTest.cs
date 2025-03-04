@@ -87,8 +87,9 @@ public class ItemControllerTest
         yield return null;
     }
     
+    // Test ID: 11
     [UnityTest]
-    // Test that next scene is loaded when player enters door
+    // Tests that the player transitions to the lobby scene when they collect an item
     public IEnumerator Player_CollectsItem_TransitionsToLobby()
     {
         // load Level 1

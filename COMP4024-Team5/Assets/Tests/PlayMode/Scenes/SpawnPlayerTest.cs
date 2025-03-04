@@ -73,8 +73,10 @@ public class SpawnPlayerTests : MonoBehaviour
         Destroy(spawnPoint);
     }
 
+    // Test ID: 25
     [UnityTest]
-    public IEnumerator PlayerGetsSpawnedAtSpawnPoint()
+    // Test to check if the player is spawned at the spawn point
+    public IEnumerator Player_GetsSpawned_AtSpawnPoint()
     {
         // Arrange
         spawnPlayerScript.InitSpawn(); // Simulate spawn logic

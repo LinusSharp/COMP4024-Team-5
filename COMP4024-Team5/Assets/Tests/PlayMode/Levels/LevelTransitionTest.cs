@@ -71,26 +71,10 @@ public class LevelTransitionTests
         yield return null;
     }
 
-    
+    // Test ID: 12
     [UnityTest]
-    public IEnumerator DoorUnlocks_WhenPlayerLevelMatches()
-    {
-        // Set player level to match the door level
-        _playerController.level = 1;
-        
-        yield return null;
-        
-        // Check if door is unlocked (collider is enabled)
-        Collider2D doorCollider = _levelTransitionObject.GetComponent<Collider2D>();
-        Assert.IsTrue(doorCollider.enabled, "Door collider should be enabled when level matches");
-        
-        // Check door sprite alpha
-        SpriteRenderer doorSprite = _levelTransitionObject.GetComponent<SpriteRenderer>();
-        Assert.AreEqual(0.0f, doorSprite.color.a, 0.01f, "Door sprite should not be dimmed when unlocked");
-    }
-
-[UnityTest]
-public IEnumerator DoorLocks_WhenPlayerLevelDoesNotMatch()
+    // Test to check if the door is locked when the player level does not match the door level
+    public IEnumerator DoorLocks_WhenPlayerLevel_DoesNotMatch()
 {
     // Set player level to a value that does NOT match the door
     _playerController.level = 2;
@@ -155,11 +139,30 @@ public IEnumerator DoorLocks_WhenPlayerLevelDoesNotMatch()
     SpriteRenderer doorSprite = foundDoor.GetComponent<SpriteRenderer>();
     Assert.AreEqual(1.0f, doorSprite.color.a, 0.01f, "Door sprite should be dimmed when locked");
 }
-
-
     
+    // Test ID: 13
     [UnityTest]
-    public IEnumerator PlayerCannotTriggerLockedDoor()
+    // Test to check if the door is unlocked when the player level matches the door level
+    public IEnumerator DoorUnlocks_WhenPlayerLevel_Matches()
+    {
+        // Set player level to match the door level
+        _playerController.level = 1;
+        
+        yield return null;
+        
+        // Check if door is unlocked (collider is enabled)
+        Collider2D doorCollider = _levelTransitionObject.GetComponent<Collider2D>();
+        Assert.IsTrue(doorCollider.enabled, "Door collider should be enabled when level matches");
+        
+        // Check door sprite alpha
+        SpriteRenderer doorSprite = _levelTransitionObject.GetComponent<SpriteRenderer>();
+        Assert.AreEqual(0.0f, doorSprite.color.a, 0.01f, "Door sprite should not be dimmed when unlocked");
+    }
+    
+    // Test ID: 14
+    [UnityTest]
+    // Test to check if the player can trigger a locked door
+    public IEnumerator Player_CannotTrigger_LockedDoor()
     {
         // Create a SceneLoader mock to prevent actual scene loading
         SceneLoaderMock sceneLoader = new GameObject("SceneLoaderMock").AddComponent<SceneLoaderMock>();

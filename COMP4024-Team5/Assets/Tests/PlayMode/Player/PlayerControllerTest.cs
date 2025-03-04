@@ -34,9 +34,10 @@ public class PlayerControllerTest
             }
         }
     }
-    
 
+    // Test ID: 15
     [Test]
+    // Test that the first player object is not destroyed
     public void Singleton_FirstInstance_ShouldNotBeDestroyed()
     {
         // Trigger Awake by enabling the component
@@ -47,7 +48,9 @@ public class PlayerControllerTest
         Assert.IsFalse(_playerController == null);
     }
 
+    // Test ID: 16
     [Test]
+    // Test that the second player object is destroyed
     public void Singleton_SecondInstance_ShouldBeDestroyed()
     {
         // Create first instance

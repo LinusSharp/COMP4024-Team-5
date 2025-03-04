@@ -97,7 +97,29 @@ public class DoorTransitionTest
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneName);
         yield return new WaitForSeconds(0.2f); // Extra time for scene to initialize
     }
+    
+    // Test ID: 8
+    [UnityTest]
+    // Test that player object is preserved when transitioning to next scene
+    public IEnumerator DoorTransition_PreservesPlayerObject_OnNextScene()
+    {
+        yield return LoadSceneAndWait("Tutorial");
+        
+        Assert.IsTrue(_player.activeSelf, "Player should be active before transition");
 
+        // Trigger the transition
+        MethodInfo triggerMethod = typeof(DoorTransition).GetMethod("OnTriggerEnter2D", 
+            BindingFlags.NonPublic | BindingFlags.Instance);
+        triggerMethod.Invoke(_doorTransition, new object[] { _player.GetComponent<Collider2D>() });
+
+        // Wait for scene transition
+        yield return new WaitForSeconds(0.5f);
+        
+        Assert.IsTrue(_player.activeSelf, "Player should remain active after transition");
+        Assert.IsNotNull(GameObject.FindGameObjectWithTag("Player"), "Player object should exist after transition");
+    }
+
+    // Test ID: 9
     [UnityTest]
     // Test that next scene is loaded when player enters door
     public IEnumerator Player_EntersDoor_TransitionsToNextScene()
@@ -123,26 +145,7 @@ public class DoorTransitionTest
         Assert.AreEqual("Lobby", finalScene, "Scene did not transition to Lobby");
     }
 
-    [UnityTest]
-    // Test that player object is preserved when transitioning to next scene
-    public IEnumerator DoorTransition_PreservesPlayerObject_OnNextScene()
-    {
-        yield return LoadSceneAndWait("Tutorial");
-        
-        Assert.IsTrue(_player.activeSelf, "Player should be active before transition");
-
-        // Trigger the transition
-        MethodInfo triggerMethod = typeof(DoorTransition).GetMethod("OnTriggerEnter2D", 
-            BindingFlags.NonPublic | BindingFlags.Instance);
-        triggerMethod.Invoke(_doorTransition, new object[] { _player.GetComponent<Collider2D>() });
-
-        // Wait for scene transition
-        yield return new WaitForSeconds(0.5f);
-        
-        Assert.IsTrue(_player.activeSelf, "Player should remain active after transition");
-        Assert.IsNotNull(GameObject.FindGameObjectWithTag("Player"), "Player object should exist after transition");
-    }
-
+    // Test ID: 10
     [UnityTest]
     // Test that the private sceneToLoad field is being assigned
     public IEnumerator SceneToLoad_Field_IsBeingSet()

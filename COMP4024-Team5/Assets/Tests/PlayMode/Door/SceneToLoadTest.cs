@@ -29,7 +29,9 @@ public class SceneToLoadTest
     };
     
 
+    // Test ID: 21
     [UnityTest]
+    // Test that the sceneToLoad field for doors in each scene are set correctly
     public IEnumerator DoorTransitions_InAllScenes_HaveCorrectSceneToLoad()
     {
         foreach (var sceneTransition in _expectedTransitions)
@@ -62,7 +64,79 @@ public class SceneToLoadTest
         }
     }
     
+    // Test ID: 22
     [UnityTest]
+    // Test that all scene names referenced in transitions exist in build settings
+    public IEnumerator DoorTransitions_SceneNamesExist()
+    {
+        // Get all scene names in build settings
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
+        HashSet<string> availableScenes = new HashSet<string>();
+
+        for (int i = 0; i < sceneCount; i++)
+        {
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            availableScenes.Add(sceneName);
+        }
+
+        // Check that all scenes referenced in transitions exist
+        foreach (var sceneTransition in _expectedTransitions)
+        {
+            string sourceScene = sceneTransition.Key;
+            List<string> targetScenes = sceneTransition.Value;
+
+            Assert.That(availableScenes.Contains(sourceScene), 
+                $"Source scene '{sourceScene}' is not in build settings");
+
+            foreach (string targetScene in targetScenes)
+            {
+                Assert.That(availableScenes.Contains(targetScene), 
+                    $"Target scene '{targetScene}' is not in build settings");
+            }
+        }
+
+        yield return null;
+    }
+    
+    // Test ID: 23
+    [UnityTest]
+    // Test that the sceneToLoad field for items in each scene are set correctly
+    public IEnumerator ItemTransitions_InLevel_LoadLobby()
+    {
+        foreach (var sceneTransition in _itemTransitions)
+        {
+            string currentScene = sceneTransition.Key;
+            List<string> expectedNextScenes = sceneTransition.Value;
+
+            // Load the scene
+            SceneManager.LoadScene(currentScene);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneTransition.Key);
+            yield return null;
+            
+            // Find all doors in the scene
+            var items = Resources.FindObjectsOfTypeAll<ItemController>();
+            Assert.That(items, Is.Not.Empty, $"No items found in scene: {currentScene}");
+
+            foreach (var item in items)
+            {
+                // Get the private sceneToLoad field using reflection
+                var sceneToLoadField = typeof(ItemController).GetField("nextScene",
+                    System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance);
+
+                string actualSceneToLoad = (string)sceneToLoadField.GetValue(item);
+
+                Assert.That(expectedNextScenes, Contains.Item(actualSceneToLoad),
+                    $"Item in scene '{currentScene}' should transition to one of '{string.Join(", ", expectedNextScenes)}' " +
+                    $"but was set to '{actualSceneToLoad}'");
+            }
+        }
+    }
+    
+    // Test ID: 24
+    [UnityTest]
+    // Test that the sceneToLoad field for doors in each scene are set correctly
     public IEnumerator LevelTransitions_InLevelSelector_HaveCorrectSceneToLoad()
     {
         foreach (var sceneTransition in _levelTransitions)
@@ -95,70 +169,4 @@ public class SceneToLoadTest
         }
     }
     
-    [UnityTest]
-    public IEnumerator ItemTransitions_InLevelSelector_LoadLobby()
-    {
-        foreach (var sceneTransition in _itemTransitions)
-        {
-            string currentScene = sceneTransition.Key;
-            List<string> expectedNextScenes = sceneTransition.Value;
-
-            // Load the scene
-            SceneManager.LoadScene(currentScene);
-            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneTransition.Key);
-            yield return null;
-            
-            // Find all doors in the scene
-            var items = Resources.FindObjectsOfTypeAll<ItemController>();
-            Assert.That(items, Is.Not.Empty, $"No items found in scene: {currentScene}");
-
-            foreach (var item in items)
-            {
-                // Get the private sceneToLoad field using reflection
-                var sceneToLoadField = typeof(ItemController).GetField("nextScene",
-                    System.Reflection.BindingFlags.NonPublic |
-                    System.Reflection.BindingFlags.Instance);
-
-                string actualSceneToLoad = (string)sceneToLoadField.GetValue(item);
-
-                Assert.That(expectedNextScenes, Contains.Item(actualSceneToLoad),
-                    $"Item in scene '{currentScene}' should transition to one of '{string.Join(", ", expectedNextScenes)}' " +
-                    $"but was set to '{actualSceneToLoad}'");
-            }
-        }
-    }
-
-    [UnityTest]
-    public IEnumerator DoorTransitions_SceneNamesExist()
-    {
-        // Get all scene names in build settings
-        int sceneCount = SceneManager.sceneCountInBuildSettings;
-        HashSet<string> availableScenes = new HashSet<string>();
-
-        for (int i = 0; i < sceneCount; i++)
-        {
-            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
-            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
-            availableScenes.Add(sceneName);
-        }
-
-        // Check that all scenes referenced in transitions exist
-        foreach (var sceneTransition in _expectedTransitions)
-        {
-            string sourceScene = sceneTransition.Key;
-            List<string> targetScenes = sceneTransition.Value;
-
-            Assert.That(availableScenes.Contains(sourceScene), 
-                $"Source scene '{sourceScene}' is not in build settings");
-
-            foreach (string targetScene in targetScenes)
-            {
-                Assert.That(availableScenes.Contains(targetScene), 
-                    $"Target scene '{targetScene}' is not in build settings");
-            }
-        }
-
-        yield return null;
-    }
-
 }

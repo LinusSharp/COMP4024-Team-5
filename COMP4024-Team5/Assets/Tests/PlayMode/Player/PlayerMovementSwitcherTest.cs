@@ -82,8 +82,70 @@ public class PlayerMovementSwitcherTests
         
         yield return null;
     }
-
+    
+    // Test ID: 17
     [Test]
+    // Test to check if the OnSceneLoaded method enables the SideView and disables the TopDown controller when the Level 1 scene is loaded
+    public void OnSceneLoaded_Level_DisablesTopDown_EnablesSideView()
+    {
+        if (SceneManager.GetSceneByName("Level 1").isLoaded)
+        {
+            SceneManager.LoadScene("Level 1");
+
+            // Get the private method
+            MethodInfo method = typeof(PlayerMovementSwitcher)
+                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.NotNull(method, "Could not find OnSceneLoaded method");
+
+            // Invoke OnSceneLoaded manually
+            method.Invoke(_movementSwitcher, new object[] { SceneManager.GetActiveScene(), LoadSceneMode.Single });
+        }
+        else
+        {
+            // Get the private method
+            MethodInfo method = typeof(PlayerMovementSwitcher)
+                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.NotNull(method, "Could not find OnSceneLoaded method");
+
+            // Create a mock scene
+            Scene mockScene = SceneManager.CreateScene("Level 1");
+
+            // Invoke OnSceneLoaded via reflection
+            method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
+        }
+
+        // Assert correct controller state
+        Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Level 1.");
+        Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Level 1.");
+    }
+    
+    // Test ID: 18
+    [Test]
+    // Test to check if the OnSceneLoaded method enables the TopDown and disables the SideView controller when the LevelSelector scene is loaded
+    public void OnSceneLoaded_LevelSelector_EnablesTopDown_DisablesSideView()
+    {
+        // Get the private method
+        MethodInfo method = typeof(PlayerMovementSwitcher)
+            .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        Assert.NotNull(method, "Could not find OnSceneLoaded method");
+
+        // Create a mock scene
+        Scene mockScene = SceneManager.CreateScene("LevelSelector");
+
+        // Invoke OnSceneLoaded via reflection
+        method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
+
+        // Assert correct controller state
+        Assert.IsFalse(_sideViewController.enabled, "Side View should be disabled in LevelSelector.");
+        Assert.IsTrue(_topDownController.enabled, "Top Down should be enabled in LevelSelector.");
+    }
+    
+    // Test ID: 19
+    [Test]
+    // Test to check if the OnSceneLoaded method enables the TopDown and disables the SideView controller when the Lobby scene is loaded
     public void OnSceneLoaded_Lobby_EnablesTopDown_DisablesSideView()
     {
 
@@ -122,28 +184,10 @@ public class PlayerMovementSwitcherTests
         Assert.IsTrue(_topDownController.enabled, "Top Down should be enabled in Lobby.");
     }
     
+    // Test ID: 20
     [Test]
-    public void OnSceneLoaded_LevelSelector_EnablesTopDown_DisablesSideView()
-    {
-        // Get the private method
-        MethodInfo method = typeof(PlayerMovementSwitcher)
-            .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        Assert.NotNull(method, "Could not find OnSceneLoaded method");
-
-        // Create a mock scene
-        Scene mockScene = SceneManager.CreateScene("LevelSelector");
-
-        // Invoke OnSceneLoaded via reflection
-        method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
-
-        // Assert correct controller state
-        Assert.IsFalse(_sideViewController.enabled, "Side View should be disabled in LevelSelector.");
-        Assert.IsTrue(_topDownController.enabled, "Top Down should be enabled in LevelSelector.");
-    }
-    
-    [Test]
-    public void OnSceneLoaded_Tutorial_EnablesTopDown_DisablesSideView()
+    // Test to check if the OnSceneLoaded method disables the TopDown and enables the SideView controller when the Tutorial scene is loaded
+    public void OnSceneLoaded_Tutorial_DisablesTopDown_EnablesSideView()
     {
         if (SceneManager.GetSceneByName("Tutorial").isLoaded)
         {
@@ -164,40 +208,5 @@ public class PlayerMovementSwitcherTests
         }
     }
     
-    [Test]
-    public void OnSceneLoaded_Level_EnablesTopDown_DisablesSideView()
-    {
-        if (SceneManager.GetSceneByName("Level 1").isLoaded)
-        {
-            SceneManager.LoadScene("Level 1");
-
-            // Get the private method
-            MethodInfo method = typeof(PlayerMovementSwitcher)
-                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            Assert.NotNull(method, "Could not find OnSceneLoaded method");
-
-            // Invoke OnSceneLoaded manually
-            method.Invoke(_movementSwitcher, new object[] { SceneManager.GetActiveScene(), LoadSceneMode.Single });
-        }
-        else
-        {
-            // Get the private method
-            MethodInfo method = typeof(PlayerMovementSwitcher)
-                .GetMethod("OnSceneLoaded", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            Assert.NotNull(method, "Could not find OnSceneLoaded method");
-
-            // Create a mock scene
-            Scene mockScene = SceneManager.CreateScene("Level 1");
-
-            // Invoke OnSceneLoaded via reflection
-            method.Invoke(_movementSwitcher, new object[] { mockScene, LoadSceneMode.Single });
-        }
-
-        // Assert correct controller state
-        Assert.IsTrue(_sideViewController.enabled, "Side View should be enabled in Level 1.");
-        Assert.IsFalse(_topDownController.enabled, "Top Down should be disabled in Level 1.");
-    }
 
 }

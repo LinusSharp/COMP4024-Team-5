@@ -43,7 +43,9 @@ public class WinScreenControllerTests
         }
     }
 
+    // Test ID: 26
     [UnityTest]
+    // Test to check if the WinScreenController is enabled
     public IEnumerator WinScreenController_Start_DestroysPlayer()
     {
         // trigger the Start() method
