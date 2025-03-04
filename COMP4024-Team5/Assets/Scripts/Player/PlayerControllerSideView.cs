@@ -2,39 +2,121 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// Controls the player's movement, jumping, animations, and audio in a side-view platformer.
+/// </summary>
 public class PlayerControllerSideView : MonoBehaviour
 {
+    /// <summary>
+    /// The speed  of the player.
+    /// </summary>
     public float moveSpeed = 5f;
+    
+    /// <summary>
+    /// The force applied to the player when jumping.
+    /// </summary>
+    
     public float jumpForce = 5f;
+    
+    /// <summary>
+    /// The Rigidbody2D component attached to the player for  interactions.
+    /// </summary>
     
     [SerializeField]
     private Rigidbody2D rb;
+    
+    /// <summary>
+    /// The collider used to detect the floor for grounding checks.
+    /// </summary>
+
     [SerializeField]
     private Collider2D floorBoxCollider;
+    
+    /// <summary>
+    /// Tracks if the player want to jump.
+    /// </summary>
     private bool _jumpRequested;
-
+    
+    
+    /// <summary>
+    /// Indicates if the player can move and interact.
+    /// </summary>
     [SerializeField]
     private bool active = true;
+    
+    /// <summary>
+    /// The collider used to detect when the player dies.
+    /// </summary>
     [SerializeField]
     private Collider2D deathBoxCollider;
+    
+    /// <summary>
+    /// Stores the player's last respawn positions.
+    /// </summary>
     private Vector2 _respawnPosition;
 
+    /// <summary>
+    /// The  component used to control the player's animations.
+    /// </summary>
     public Animator animator;
     
+    
+    /// <summary>
+    /// Checks if  the player is facing right.
+    /// </summary>
     private bool facingRight = true;
 
     // --- Audio Sources and Clips ---
+    
+    /// <summary>
+    /// The audio  used sounds for looping like footsteps.
+    /// </summary>
     public AudioSource loopingAudioSource;
+    
+    /// <summary>
+    /// The audio used for playing one shot sounds.
+    /// </summary>
     public AudioSource oneShotAudioSource;
     
+    /// <summary>
+    /// The sound effect used  when the player walks.
+    /// </summary>
     public AudioClip footstepSound;
+    
+    /// <summary>
+    /// The sound effect used  when the player jumps.
+    /// </summary>
     public AudioClip jumpSound;
+    
+    /// <summary>
+    /// The sound effect used  when the player is in the air. 
+    /// </summary>
     public AudioClip inAirSound;
-    public AudioClip dieSound; // New death sound
+    
+    
+    /// <summary>
+    /// The sound effect used  when the player dies. 
+    /// </summary>
+    public AudioClip dieSound; 
 
     // --- Volume settings for looping sounds ---
+    
+    /// <summary>
+    /// Footstep sound volume.
+    /// </summary>
     public float footstepVolume = 0.5f;
+    
+    
+    /// <summary>
+    /// In Air sound volume.
+    /// </summary>
     public float inAirVolume = 0.5f;
+    
+    /// <summary>
+    /// Initialises the player.
+    /// </summary>
+    
     private void Start()
     {
         active = true;
@@ -52,12 +134,17 @@ public class PlayerControllerSideView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when the object is initialszed.
+    /// </summary>
     private void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 1;
     }
-
+    /// <summary>
+    /// Subscribes to the sceneLoaded event and ensures the Rigidbody2D component is set up.
+    /// </summary>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -66,13 +153,22 @@ public class PlayerControllerSideView : MonoBehaviour
         rb.gravityScale = 1;
     }
     
+    /// <summary>
+    /// Unsubscribes from the sceneLoaded event to prevent memory leaks.
+    /// </summary>
     private void OnDisable()
     {
         // Unsubscribe to prevent memory leaks
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
-    // This method is called every time a new scene is loaded.
+    /// <summary>
+    /// Resets the player's movement when a new scene is loaded.
+    /// </summary>
+    /// <param name="scene">The scene that was loaded.</param>
+    /// <param name="mode">The mode in which the scene was loaded.</param>
+    
+ 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Reset the player's movement
@@ -80,6 +176,9 @@ public class PlayerControllerSideView : MonoBehaviour
         rb.angularVelocity = 0;
     }
     
+    /// <summary>
+    /// Handles player input, movement, jumping, and sound effects.
+    /// </summary>
     private void Update()
     {
 
@@ -145,7 +244,9 @@ public class PlayerControllerSideView : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Handles the player's movement and jumping.
+    /// </summary>
     private void FixedUpdate()
     {
         if (active)
@@ -160,12 +261,20 @@ public class PlayerControllerSideView : MonoBehaviour
         }
     }
     
+    
+    /// <summary>
+    /// Flips the player's facing direction.
+    /// </summary>
+    
     private void Flip()
     {
         facingRight = !facingRight;
         transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
     }
-    
+    /// <summary>
+    /// Checks if the player is touching the ground.
+    /// </summary>
+    /// <returns>Returns true if the player is grounded, false otherwise.</returns>
     private bool IsGrounded()
     {
         var bounds = floorBoxCollider.bounds;
@@ -174,15 +283,27 @@ public class PlayerControllerSideView : MonoBehaviour
         return isGrounded;
     }
     
+    /// <summary>
+    /// Performs a small jump.
+    /// </summary>
     private void MiniJump()
     {
         rb.AddForce(new Vector2(0f, jumpForce / 2), ForceMode2D.Impulse);
     }
     
+    /// <summary>
+    /// Sets the current player position as the respawn point.
+    /// </summary>
+    
     public void SetRespawnPoint()
     {
         _respawnPosition = transform.position;
     }
+    
+    
+    /// <summary>
+    /// Handles the player's death by disabling movement and playing a death sound.
+    /// </summary>
 
     public void Die()
     {
@@ -200,6 +321,9 @@ public class PlayerControllerSideView : MonoBehaviour
         StartCoroutine(Respawn());
     }
 
+    /// <summary>
+    /// Respawns the player at their last set respawn position after a delay.
+    /// </summary>
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(2f);
@@ -209,7 +333,9 @@ public class PlayerControllerSideView : MonoBehaviour
         MiniJump();
     }
     
-    // Resets the jump animation when landing.
+    /// <summary>
+    /// Resets the jump animation when landing.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.contacts[0].normal.y > 0.5f)
@@ -217,7 +343,9 @@ public class PlayerControllerSideView : MonoBehaviour
             animator.SetBool("IsJumping", false);
         }
     }
-
+    /// <summary>
+    /// Resets the player's facing direction to default.
+    /// </summary>
     public void ResetFacing()
     {
         facingRight = true;
@@ -226,6 +354,10 @@ public class PlayerControllerSideView : MonoBehaviour
         transform.localScale = scale;
     }
 
+    
+    /// <summary>
+    /// Resets the player's animation states.
+    /// </summary>
     public void ResetAnimation()
     {
         animator.SetBool("IsJumping", false);

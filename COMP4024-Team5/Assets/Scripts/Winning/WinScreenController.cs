@@ -1,7 +1,12 @@
 using UnityEngine;
-
+/// <summary>
+/// Controls the win screen behaviour..
+/// </summary>
 public class WinScreenController : MonoBehaviour
-{
+{ 
+    /// <summary>
+    /// Called on script start. Destroys the player object if it already  exists.
+    /// </summary>
     private void Start()
     {
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
@@ -12,6 +17,9 @@ public class WinScreenController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Quits the game.
+    /// </summary>
     public void QuitGame()
     {
 #if UNITY_EDITOR
