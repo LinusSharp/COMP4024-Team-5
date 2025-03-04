@@ -1,15 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Handles spawning and resetting the player's positions.
+/// </summary>
 public class SpawnPlayer : MonoBehaviour
 {
+    /// <summary>
+    /// Initialises the player's spawn position and state.
+    /// </summary>
     private void Start()
     {
         InitSpawn();
     }
-
+    /// <summary>
+    /// Finds the player object, resets its position, state, and animations. and ensures the correct controller settings based on the scene.
+    /// </summary>
     public void InitSpawn()
+    
     {
+        // Find the player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -23,6 +32,8 @@ public class SpawnPlayer : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
             }
+            
+            // Reset animations and facing direction for side-view controller
 
             PlayerControllerSideView sideView = player.GetComponent<PlayerControllerSideView>();
             if (sideView != null)
@@ -30,7 +41,7 @@ public class SpawnPlayer : MonoBehaviour
                 sideView.ResetFacing();
                 sideView.ResetAnimation();
             }
-
+        // Reset animations and facing direction for top-down controller
             PlayerControllerTopDown topView = player.GetComponent<PlayerControllerTopDown>();
             if (topView != null)
             {
@@ -38,7 +49,7 @@ public class SpawnPlayer : MonoBehaviour
                 topView.ResetFacing();
             }
         }
-        
+        // Get the current scene
         Scene scene = gameObject.scene;
         // rename the if to the level names
         if (scene.name == "Tutorial" || scene.name == "Level 1" || scene.name == "Level 2" || scene.name == "Level 3" || scene.name == "Level 4")

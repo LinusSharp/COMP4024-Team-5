@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Floor Pillar High_0: -1643619717573992336
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
