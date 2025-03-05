@@ -56,15 +56,28 @@ public class EnemyMovement : MonoBehaviour
             Flip();
         }
 
-        // Update the audio volume based on distance to the player.
+        // Update the audio volumes based on distance to the player.
         if (playerTransform != null)
         {
             float distance = Vector2.Distance(transform.position, playerTransform.position);
-            // Calculate volume: max at or below minSoundDistance, 0 at or above maxSoundDistance.
-            float volume = Mathf.Clamp01(1 - (distance - minSoundDistance) / (maxSoundDistance - minSoundDistance));
-            enemyAudioSource.volume = volume;
+            // Calculate normalized distance: 1 when very close, 0 when at or beyond maxSoundDistance.
+            float normalizedDistance = Mathf.Clamp01(1 - (distance - minSoundDistance) / (maxSoundDistance - minSoundDistance));
+            
+            // Increase enemy volume as it gets closer.
+            float enemyVolume = Mathf.Lerp(1f, 4f, normalizedDistance);
+            enemyAudioSource.volume = enemyVolume;
+
+            // Lower background music volume when enemy is near.
+            if (AudioController.instance != null && AudioController.instance.backgroundMusic != null)
+            {
+
+                // Background music goes from full volume (1.0) when enemy is far, to lowered (0.3) when enemy is near.
+                float bgVolume = Mathf.Lerp(0.3f, 0f, normalizedDistance);
+                AudioController.instance.backgroundMusic.volume = bgVolume;
+            }
         }
     }
+
 
     // Flips the enemy's sprite by inverting its localScale.x value.
     private void Flip()

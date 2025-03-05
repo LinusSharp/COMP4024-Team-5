@@ -183,8 +183,8 @@ MonoBehaviour:
   maxX: 63
   enemyAudioSource: {fileID: 5497725934154814130}
   enemySound: {fileID: 8300000, guid: fef15028398954224bd2c5e149a5eeb3, type: 3}
-  minSoundDistance: 10
-  maxSoundDistance: 30
+  minSoundDistance: 15
+  maxSoundDistance: 40
 --- !u!114 &7985299710421519135
 MonoBehaviour:
   m_ObjectHideFlags: 0

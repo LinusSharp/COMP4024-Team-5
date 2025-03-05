@@ -4324,6 +4324,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 3aac9f666d2534b2282a64fcb744160a, type: 3}
     - target: {fileID: 483128290215924850, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+      propertyPath: footstepVolume
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 483128290215924850, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: loopingAudioSource
       value: 
       objectReference: {fileID: 8249409352406034797}
@@ -4384,9 +4388,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8249409352406034797}
     - target: {fileID: 1866392601427309046, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+      propertyPath: inAirVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866392601427309046, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: footstepSound
       value: 
       objectReference: {fileID: 8300000, guid: 3aac9f666d2534b2282a64fcb744160a, type: 3}
+    - target: {fileID: 1866392601427309046, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+      propertyPath: footstepVolume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1866392601427309046, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: deathBoxCollider
       value: 
@@ -4415,6 +4427,10 @@ PrefabInstance:
       propertyPath: levelUpSound
       value: 
       objectReference: {fileID: 8300000, guid: 72219b8fd1e0a4abea29183e1b446161, type: 3}
+    - target: {fileID: 7634712770025236965, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
+      propertyPath: levelUpVolume
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7634712770025236965, guid: 189a18473b7ffca48a3dc8ccda130ae1, type: 3}
       propertyPath: oneShotAudioSource
       value: 

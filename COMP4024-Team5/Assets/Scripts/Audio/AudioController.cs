@@ -81,22 +81,33 @@ public class AudioController : MonoBehaviour
     {
         if (backgroundMusic == null) return;
 
-        // Choose the correct music for the scene
-        AudioClip newMusic = mainGameMusic; 
+        // Choose the correct music and set its volume based on the scene.
+        AudioClip newMusic = mainGameMusic;
+        float volume = 0.3f;  // default volume for the main game
 
         if (sceneName == "Start")
+        {
             newMusic = startScreenMusic;
+            volume = 0.6f;
+        }
         else if (sceneName == "Lobby")
+        {
             newMusic = lobbyMusic;
+            volume = 0.6f;
+        }
         else if (sceneName == "LevelSelector")
+        {
             newMusic = levelSelectorMusic;
+            volume = 0.6f;
+        }
 
-       
         if (backgroundMusic.clip != newMusic)
         {
             backgroundMusic.clip = newMusic;
             backgroundMusic.loop = true;
+            backgroundMusic.volume = volume;
             backgroundMusic.Play();
         }
     }
+
 }

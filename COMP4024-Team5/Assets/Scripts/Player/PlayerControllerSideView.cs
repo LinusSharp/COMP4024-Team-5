@@ -205,7 +205,7 @@ public class PlayerControllerSideView : MonoBehaviour
         {
             _jumpRequested = true;
             animator.SetBool("IsJumping", true);
-            oneShotAudioSource.PlayOneShot(jumpSound, 0.5f);
+            oneShotAudioSource.PlayOneShot(jumpSound, 0.2f);
         }
 
         // --- Looping Sound Effect Logic ---
